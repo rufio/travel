@@ -1,0 +1,26 @@
+{{extend 'layout.html'}}
+
+{{if not src:}}
+    <h1>
+        Enter your Info:
+</h1>
+    {{=form}}
+{{pass}}
+
+{{if src:}}
+    <divs style="margin-bottom:100px;">
+        <button type="button" name ="seeting_button" onclick = 'window.location="{{=URL('default', 'test')}}";'>Refresh</button>
+    </div>
+{{pass}}
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $(function() {
+    $("#no_table_computedName").autocomplete({
+      source: "{{=URL('default', 'elementnode_autocomplete')}}",
+      minLength: 2
+    });
+  });
+});
+</script>

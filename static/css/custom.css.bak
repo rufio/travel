@@ -1,0 +1,71 @@
+.crop {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.crop img {
+    width: 400px;
+    height: 100%;
+    margin: 5px 0 0 0;
+}
+
+.active{
+    background-color:green !important;
+}
+
+#refresh{
+    background-color:grey;
+}
+
+.refresh-alert-text{
+    color:red;
+}
+
+.refresh-alert-bg{
+    background-color:red !important;
+}
+
+#day-select{
+    float:left;
+}
+
+#last-refreshed{
+    float:right;
+    text-align:right;
+}
+
+.small-text{
+    font-size:15px;
+    margin-left:10px;
+}
+
+#top-bar{
+    position: fixed;
+    width:50px;
+    top: 0;
+    margin-left: 45%;
+    text-align:center;
+    color:#FFF;
+    z-index:1031;
+    height: 60px;
+    line-height: 55px;
+}
+
+
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: @screen-sm-min) {
+    .img-item img{
+            width:100%;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: @screen-md-min) {  }
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: @screen-lg-min) {  }

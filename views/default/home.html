@@ -1,0 +1,110 @@
+<div id="top-bar">{{=dest}}</div>
+{{extend 'layout.html'}}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>
+        Pick when you want to start your travels:
+    </h3>
+        <span class="refresh-alert-text"></span>
+        <form id="radio-form">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="option1" value="4" autocomplete="off" checked> Thursday
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option2" value="5" autocomplete="off"> Friday
+                </label>
+            </div>
+        </form>
+    </div>
+    
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>
+    Click Refresh to Populate Data
+    </h3>
+    <span class="max-alert-text"></span>
+        <div class="flight-links">
+            {{for dir in dirs[1:]:}}
+            <a href="{{= URL() + '/' + dir}}">
+                <button type="button" id="{{=str(dir).replace(src +'/', '')}}" value = "{{=str(dir).replace(src +'/', '')}}" class="btn btn-default navbar-btn dests">{{= str(dir).replace('/', '->')}}</button>
+            </a>
+            {{pass}}
+            <span class="refresh-area">
+
+    </span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="last-refreshed col-md-12">
+            <h3>Last Refreshed:<span class="small-text">{{=last_refreshed}}</span></h3>
+
+    </div>
+</div>
+<div class="row">
+        {{for key, val in iter(sorted(files.iteritems())): }}
+        <div class="col-md-3 crop">{{=A(IMG(_src=URL('static/images/' + src + '/' + dest.upper(), key), _alt="My Logo"), _href=val)}}</div>
+        {{pass}}
+</div>
+
+<script>
+    $(document).ready(function() {
+        var urls = new Array();
+        function show_alert(value, class_name) {
+            $('.' + class_name + '').html(value);
+            setTimeout(function() {
+                $('.' + class_name + '').html('');
+            }, 3000);
+        };
+
+        function refresh_button(){
+            var day_val = $('input[name=options]:checked', '#radio-form').val();
+            if (day_val == 4) {
+                btn_txt = btn_txt4;
+            } else {
+                btn_txt = btn_txt5
+            }
+            $(".refresh-area").html(btn_txt);
+        }
+        var urlThursday = "/travel/default/process_screenshots/4";
+        var urlFriday = "/travel/default/process_screenshots/5";
+        var btn_txt4 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlThursday + " id='refresh-btn'>Refresh</a>"
+        var btn_txt5 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlFriday + " id='refresh-btn'>Refresh</a>";
+        var btn_txt = '';
+        $('#radio-form input').on('change', function() {
+            show_alert("Make Sure to Click Refresh", 'refresh-alert-text');
+            refresh_button();
+        });
+        $(".refresh-area").html(btn_txt4);
+
+
+
+        var numDests = $('.dests').length
+        //PIECE FOR ADDING DESTINATIONS
+        $('.dests').click(function(e) { 
+            e.preventDefault(); 
+            if(urls.length>= numDests){
+                show_alert("Added Too Many Destinations", 'max-alert-text');
+            }
+            else{
+                urls.push($(this).attr("value"));
+                $(this).addClass('active');
+                urlThursday += "/" + $(this).attr("value");
+                urlFriday +="/" + $(this).attr("value");
+                btn_txt4 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlThursday + " id='refresh-btn'>Refresh</a>"
+                btn_txt5 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlFriday + " id='refresh-btn'>Refresh</a>";
+                refresh_button();
+            }
+            console.log(urlThursday);
+            console.log(urlFriday);
+        });
+
+
+    });
+</script>

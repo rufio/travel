@@ -1,0 +1,631 @@
+(dp1
+S'output'
+p2
+S''
+sS'layer'
+p3
+S'Framework'
+p4
+sS'code'
+p5
+S''
+sS'snapshot'
+p6
+(dp7
+S'exception'
+p8
+(dp9
+S'__module__'
+p10
+S"'bdb'"
+p11
+sS'__getslice__'
+p12
+S"<method-wrapper '__getslice__' of BdbQuit object>"
+p13
+sS'__str__'
+p14
+S"<method-wrapper '__str__' of BdbQuit object>"
+p15
+sS'__reduce__'
+p16
+S'<built-in method __reduce__ of BdbQuit object>'
+p17
+sS'__dict__'
+p18
+S'{}'
+p19
+sS'__sizeof__'
+p20
+S'<built-in method __sizeof__ of BdbQuit object>'
+p21
+sS'__weakref__'
+p22
+S'None'
+p23
+sS'__init__'
+p24
+S"<method-wrapper '__init__' of BdbQuit object>"
+p25
+sS'__setattr__'
+p26
+S"<method-wrapper '__setattr__' of BdbQuit object>"
+p27
+sS'__reduce_ex__'
+p28
+S'<built-in method __reduce_ex__ of BdbQuit object>'
+p29
+sS'__new__'
+p30
+S'<built-in method __new__ of type object>'
+p31
+sS'__format__'
+p32
+S'<built-in method __format__ of BdbQuit object>'
+p33
+sS'__class__'
+p34
+S"<class 'bdb.BdbQuit'>"
+p35
+sS'__doc__'
+p36
+S"'Exception to give up completely'"
+p37
+sS'__getitem__'
+p38
+S"<method-wrapper '__getitem__' of BdbQuit object>"
+p39
+sS'__setstate__'
+p40
+S'<built-in method __setstate__ of BdbQuit object>'
+p41
+sS'__getattribute__'
+p42
+S"<method-wrapper '__getattribute__' of BdbQuit object>"
+p43
+sS'args'
+p44
+S'()'
+p45
+sS'__subclasshook__'
+p46
+S'<built-in method __subclasshook__ of type object>'
+p47
+sS'__unicode__'
+p48
+S'<built-in method __unicode__ of BdbQuit object>'
+p49
+sS'__delattr__'
+p50
+S"<method-wrapper '__delattr__' of BdbQuit object>"
+p51
+sS'__repr__'
+p52
+S"<method-wrapper '__repr__' of BdbQuit object>"
+p53
+sS'__hash__'
+p54
+S"<method-wrapper '__hash__' of BdbQuit object>"
+p55
+ssS'evalue'
+p56
+S''
+sS'request'
+p57
+cgluon.html
+XML_unpickle
+p58
+(S's\\j\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>appadmin</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-8e5dbd53-4d97-42c4-9458-0c9f30d20ac6<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_cms</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-58499439-b614-4a2d-847c-af7ee07567ca<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_travel</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-afcfd019-7ec6-4b4c-9fd2-0ab7713ef06f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_PREFIX</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">GATEWAY_INTERFACE</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_cms=73.246.151.222-58499439-b614-4a2d-847c-af7ee07567ca; session_id_travel=73.246.151.222-afcfd019-7ec6-4b4c-9fd2-0ab7713ef06f; session_id_admin=73.246.151.222-8e5dbd53-4d97-42c4-9458-0c9f30d20ac6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>https://73.246.151.222/travel/appadmin/select/db?query=db.user_request_images.id%3E0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/travel/appadmin/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_TRANSLATED</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/travel/appadmin/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>59120</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_SCHEME</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/travel/appadmin/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_FILENAME</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADDR</td><td style="vertical-align:top;">:</td><td><div>10.0.0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADMIN</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SIGNATURE</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.7 (Ubuntu) Server at 73.246.151.222 Port 443&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.7 (Ubuntu)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/travel/&#x27;, &#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/cms/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_prefix</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gateway_interface</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_cms=73.246.151.222-58499439-b614-4a2d-847c-af7ee07567ca; session_id_travel=73.246.151.222-afcfd019-7ec6-4b4c-9fd2-0ab7713ef06f; session_id_admin=73.246.151.222-8e5dbd53-4d97-42c4-9458-0c9f30d20ac6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>https://73.246.151.222/travel/appadmin/select/db?query=db.user_request_images.id%3E0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>73.246.151.222</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>ryan-MS-7850</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.application_group</td><td style="vertical-align:top;">:</td><td><div>127.0.1.1|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.queue_start</td><td style="vertical-align:top;">:</td><td><div>1464371737665135</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>3</div></td></tr><tr><td><div>4</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_application_group</td><td style="vertical-align:top;">:</td><td><div>127.0.1.1|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_queue_start</td><td style="vertical-align:top;">:</td><td><div>1464371737665135</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>3</div></td></tr><tr><td><div>4</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/travel/appadmin/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_translated</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/travel/appadmin/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>59120</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/travel/appadmin/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_addr</td><td style="vertical-align:top;">:</td><td><div>10.0.0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_admin</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_signature</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.7 (Ubuntu) Server at 73.246.151.222 Port 443&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.7 (Ubuntu)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f80321cf6b0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in method file_wrapper of mod_wsgi.Adapter object at 0x7f8031741828&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f8030cc25f0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f80321cf6b0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in method file_wrapper of mod_wsgi.Adapter object at 0x7f8031741828&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f8030cc25f0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/travel/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/travel/&#x27;, &#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/cms/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>73.246.151.222</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>ryan-MS-7850</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 27, 12, 55, 37, 665332)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/travel/appadmin/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 27, 17, 55, 37, 665339)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f803097f050&gt;</div></td></tr></table></div>'
+tRp59
+sS'frames'
+p60
+(lp61
+(dp62
+S'file'
+p63
+S'/home/www-data/web2py/gluon/main.py'
+p64
+sS'dump'
+p65
+(dp66
+S'gluon.debug.dbg.do_debug'
+p67
+S'<bound method Qdb.do_debug of <gluon.contrib.qdb.Qdb instance>>'
+p68
+sS'gluon.debug'
+p69
+S"<module 'gluon.debug' from '/home/www-data/web2py/gluon/debug.pyc'>"
+p70
+sS'gluon.debug.dbg'
+p71
+S'<gluon.contrib.qdb.Qdb instance>'
+p72
+sS'request'
+p73
+S"<Storage {'_vars': None, 'function': 'index', 'c...': '/home/www-data/web2py/applications/travel/'}>"
+p74
+sS'gluon'
+p75
+S"<module 'gluon' from '/home/www-data/web2py/gluon/__init__.pyc'>"
+p76
+sS'request.folder'
+p77
+S"'/home/www-data/web2py/applications/travel/'"
+p78
+sS'mainpyfile'
+p79
+S'undefined'
+p80
+ssS'lnum'
+p81
+I447
+sS'lines'
+p82
+(dp83
+I448
+S''
+sI449
+S'                serve_controller(request, response, session)'
+p84
+sI450
+S''
+sI451
+S'            except HTTP, http_response:'
+p85
+sI442
+S'                # ##################################################'
+p86
+sI443
+S''
+sI444
+S'                if global_settings.debugging and app != "admin":'
+p87
+sI445
+S'                    import gluon.debug'
+p88
+sI446
+S'                    # activate the debugger'
+p89
+sI447
+S'                    gluon.debug.dbg.do_debug(mainpyfile=request.folder)'
+p90
+ssS'call'
+p91
+S"(environ={'CONTEXT_DOCUMENT_ROOT': '/var/www', 'CONTEXT_PREFIX': '', 'DOCUMENT_ROOT': '/var/www', 'GATEWAY_INTERFACE': 'CGI/1.1', 'HTTP_ACCEPT': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8', 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, sdch', 'HTTP_ACCEPT_LANGUAGE': 'en-US,en;q=0.8', 'HTTP_CONNECTION': 'keep-alive', 'HTTP_COOKIE': 'session_id_cms=73.246.151.222-58499439-b614-4a2d....246.151.222-8e5dbd53-4d97-42c4-9458-0c9f30d20ac6', 'HTTP_HOST': '73.246.151.222', ...}, responder=<built-in method start_response of mod_wsgi.Adapter object>)"
+p92
+sS'func'
+p93
+S'wsgibase'
+p94
+sa(dp95
+g63
+S'/home/www-data/web2py/gluon/contrib/qdb.py'
+p96
+sg65
+(dp97
+S'self'
+p98
+S'<gluon.contrib.qdb.Qdb instance>'
+p99
+sS'self.reset'
+p100
+S'<bound method Qdb.reset of <gluon.contrib.qdb.Qdb instance>>'
+p101
+ssg81
+I214
+sg82
+(dp102
+I209
+S'        finally:'
+p103
+sI210
+S'            self.waiting = False'
+p104
+sI211
+S'        self.frame = None'
+p105
+sI212
+S''
+sI213
+S'    def do_debug(self, mainpyfile=None, wait_breakpoint=1):'
+p106
+sI214
+S'        self.reset()'
+p107
+sI215
+S'        if not wait_breakpoint or mainpyfile:'
+p108
+sI216
+S'            self._wait_for_mainpyfile = 1'
+p109
+sI217
+S'            if not mainpyfile:'
+p110
+sI218
+S'                frame = sys._getframe().f_back'
+p111
+ssg91
+S"(self=<gluon.contrib.qdb.Qdb instance>, mainpyfile='/home/www-data/web2py/applications/travel/', wait_breakpoint=1)"
+p112
+sg93
+S'do_debug'
+p113
+sa(dp114
+g63
+S'/home/www-data/web2py/gluon/contrib/qdb.py'
+p115
+sg65
+(dp116
+S'bdb.Bdb.reset'
+p117
+S'<unbound method Bdb.reset>'
+p118
+sS'self'
+p119
+S'<gluon.contrib.qdb.Qdb instance>'
+p120
+sS'global bdb'
+p121
+S"<module 'bdb' from '/usr/lib/python2.7/bdb.pyc'>"
+p122
+sS'bdb.Bdb'
+p123
+S'<class bdb.Bdb>'
+p124
+ssg81
+I440
+sg82
+(dp125
+I435
+S'        assignment of the _ variable in the builtins.'
+p126
+sI436
+S'        """'
+p127
+sI437
+S'        self.displayhook_value = repr(obj)'
+p128
+sI438
+S''
+sI439
+S'    def reset(self):'
+p129
+sI440
+S'        bdb.Bdb.reset(self)'
+p130
+sI441
+S'        self.waiting = False'
+p131
+sI442
+S'        self.frame = None'
+p132
+sI443
+S''
+sI444
+S'    def post_mortem(self, t=None):'
+p133
+ssg91
+S'(self=<gluon.contrib.qdb.Qdb instance>)'
+p134
+sg93
+S'reset'
+p135
+sa(dp136
+g63
+S'/usr/lib/python2.7/bdb.py'
+p137
+sg65
+(dp138
+S'builtinNone'
+p139
+S'None'
+p140
+sS'self'
+p141
+S'<gluon.contrib.qdb.Qdb instance>'
+p142
+sS'self._set_stopinfo'
+p143
+S'<bound method Qdb._set_stopinfo of <gluon.contrib.qdb.Qdb instance>>'
+p144
+ssg81
+I43
+sg82
+(dp145
+I38
+S''
+sI39
+S'    def reset(self):'
+p146
+sI40
+S'        import linecache'
+p147
+sI41
+S'        linecache.checkcache()'
+p148
+sI42
+S'        self.botframe = None'
+p149
+sI43
+S'        self._set_stopinfo(None, None)'
+p150
+sI44
+S''
+sI45
+S'    def trace_dispatch(self, frame, event, arg):'
+p151
+sI46
+S'        if self.quitting:'
+p152
+sI47
+S'            return # None'
+p153
+ssg91
+S'(self=<gluon.contrib.qdb.Qdb instance>)'
+p154
+sg93
+g135
+sa(dp155
+g63
+S'/usr/lib/python2.7/bdb.py'
+p156
+sg65
+(dp157
+S'self'
+p158
+S'<gluon.contrib.qdb.Qdb instance>'
+p159
+sS'self.stopframe'
+p160
+S'<frame object>'
+p161
+sS'stopframe'
+p162
+S'None'
+p163
+ssg81
+I177
+sg82
+(dp164
+I172
+S'        """This method is called if an exception occurs,'
+p165
+sI173
+S'        but only if we are to stop at or just below this level."""'
+p166
+sI174
+S'        pass'
+p167
+sI175
+S''
+sI176
+S'    def _set_stopinfo(self, stopframe, returnframe, stoplineno=0):'
+p168
+sI177
+S'        self.stopframe = stopframe'
+p169
+sI178
+S'        self.returnframe = returnframe'
+p170
+sI179
+S'        self.quitting = 0'
+p171
+sI180
+S'        # stoplineno >= 0 means: stop at line >= the stoplineno'
+p172
+sI181
+S"        # stoplineno -1 means: don't stop at all"
+p173
+ssg91
+S'(self=<gluon.contrib.qdb.Qdb instance>, stopframe=None, returnframe=None, stoplineno=0)'
+p174
+sg93
+S'_set_stopinfo'
+p175
+sa(dp176
+g63
+S'/usr/lib/python2.7/bdb.py'
+p177
+sg65
+(dp178
+S'self'
+p179
+S'<gluon.contrib.qdb.Qdb instance>'
+p180
+sS'self.stopframe'
+p181
+S'<frame object>'
+p182
+sS'stopframe'
+p183
+S'None'
+p184
+ssg81
+I177
+sg82
+(dp185
+I172
+S'        """This method is called if an exception occurs,'
+p186
+sI173
+S'        but only if we are to stop at or just below this level."""'
+p187
+sI174
+S'        pass'
+p188
+sI175
+S''
+sI176
+S'    def _set_stopinfo(self, stopframe, returnframe, stoplineno=0):'
+p189
+sI177
+S'        self.stopframe = stopframe'
+p190
+sI178
+S'        self.returnframe = returnframe'
+p191
+sI179
+S'        self.quitting = 0'
+p192
+sI180
+S'        # stoplineno >= 0 means: stop at line >= the stoplineno'
+p193
+sI181
+S"        # stoplineno -1 means: don't stop at all"
+p194
+ssg91
+S'(self=<gluon.contrib.qdb.Qdb instance>, stopframe=None, returnframe=None, stoplineno=0)'
+p195
+sg93
+g175
+sa(dp196
+g63
+S'/home/www-data/web2py/gluon/contrib/qdb.py'
+p197
+sg65
+(dp198
+S'self.dispatch_line'
+p199
+S'<bound method Qdb.dispatch_line of <gluon.contrib.qdb.Qdb instance>>'
+p200
+sS'self'
+p201
+S'<gluon.contrib.qdb.Qdb instance>'
+p202
+sS'frame'
+p203
+S'<frame object>'
+p204
+ssg81
+I89
+sg82
+(dp205
+I84
+S'            self.pull_actions()'
+p206
+sI85
+S'        # process the frame (see Bdb.trace_dispatch)'
+p207
+sI86
+S'        if self.quitting:'
+p208
+sI87
+S'            return  # None'
+p209
+sI88
+S"        if event == 'line':"
+p210
+sI89
+S'            return self.dispatch_line(frame)'
+p211
+sI90
+S"        if event == 'call':"
+p212
+sI91
+S'            return self.dispatch_call(frame, arg)'
+p213
+sI92
+S"        if event == 'return':"
+p214
+sI93
+S'            return self.dispatch_return(frame, arg)'
+p215
+ssg91
+S"(self=<gluon.contrib.qdb.Qdb instance>, frame=<frame object>, event='line', arg=None)"
+p216
+sg93
+S'trace_dispatch'
+p217
+sa(dp218
+g63
+S'/usr/lib/python2.7/bdb.py'
+p219
+sg65
+(dp220
+S'self'
+p221
+S'<gluon.contrib.qdb.Qdb instance>'
+p222
+sS'self.quitting'
+p223
+S'1'
+sS'global BdbQuit'
+p224
+S"<class 'bdb.BdbQuit'>"
+p225
+ssg81
+I68
+sg82
+(dp226
+I64
+S''
+sI65
+S'    def dispatch_line(self, frame):'
+p227
+sI66
+S'        if self.stop_here(frame) or self.break_here(frame):'
+p228
+sI67
+S'            self.user_line(frame)'
+p229
+sI68
+S'            if self.quitting: raise BdbQuit'
+p230
+sI69
+S'        return self.trace_dispatch'
+p231
+sI70
+S''
+sI71
+S'    def dispatch_call(self, frame, arg):'
+p232
+sI72
+S"        # XXX 'arg' is no longer used"
+p233
+sI63
+S'        return self.trace_dispatch'
+p234
+ssg91
+S'(self=<gluon.contrib.qdb.Qdb instance>, frame=<frame object>)'
+p235
+sg93
+S'dispatch_line'
+p236
+sasS'pyver'
+p237
+S'Python 2.7.6: /usr/bin/python (prefix: /usr)'
+p238
+sS'session'
+p239
+g58
+(S's\x17\n\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>3d28c0f0-cd74-421c-9d4c-d178428deb1f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 27, 12, 49, 29, 621571)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remember_me</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>r.krienitz@gmail.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>Ryan</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>Krienitz</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>user_1</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_orderby</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_query</td><td style="vertical-align:top;">:</td><td><div>db.user_request_images.id&gt;0</div></td></tr></table></div>'
+tRp240
+sS'etype'
+p241
+S"<class 'bdb.BdbQuit'>"
+p242
+sS'date'
+p243
+S'Fri May 27 12:56:31 2016'
+p244
+sS'response'
+p245
+g58
+(S's\xca\x15\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f80318ff1f0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_travel</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-afcfd019-7ec6-4b4c-9fd2-0ab7713ef06f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div>: </div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>table3cols</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/www-data/web2py/applications/travel/sessions/113/055/73.246.151.222-afcfd019-7ec6-4b4c-9fd2-0ab7713ef06f&#x27;, mode &#x27;rb+&#x27; at 0x7f8023ed2300&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/travel/sessions/73.246.151.222-afcfd019-7ec6-4b4c-9fd2-0ab7713ef06f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>d0de3db70ace771d16411d03119bb2bc</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-afcfd019-7ec6-4b4c-9fd2-0ab7713ef06f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr></table></div>'
+tRp246
+sS'locals'
+p247
+(dp248
+S'frame'
+p249
+S'<frame object>'
+p250
+sS'self'
+p251
+S'<gluon.contrib.qdb.Qdb instance>'
+p252
+sssS'traceback'
+p253
+S'Traceback (most recent call last):\n  File "/home/www-data/web2py/gluon/main.py", line 447, in wsgibase\n    gluon.debug.dbg.do_debug(mainpyfile=request.folder)\n  File "/home/www-data/web2py/gluon/contrib/qdb.py", line 214, in do_debug\n    self.reset()\n  File "/home/www-data/web2py/gluon/contrib/qdb.py", line 440, in reset\n    bdb.Bdb.reset(self)\n  File "/usr/lib/python2.7/bdb.py", line 43, in reset\n    self._set_stopinfo(None, None)\n  File "/usr/lib/python2.7/bdb.py", line 177, in _set_stopinfo\n    self.stopframe = stopframe\n  File "/usr/lib/python2.7/bdb.py", line 177, in _set_stopinfo\n    self.stopframe = stopframe\n  File "/home/www-data/web2py/gluon/contrib/qdb.py", line 89, in trace_dispatch\n    return self.dispatch_line(frame)\n  File "/usr/lib/python2.7/bdb.py", line 68, in dispatch_line\n    if self.quitting: raise BdbQuit\nBdbQuit\n'
+p254
+s.

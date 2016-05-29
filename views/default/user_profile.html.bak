@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+
+<h1>
+        Enter your Info:
+</h1>
+    {{=form}}

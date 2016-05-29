@@ -1,0 +1,766 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.SyntaxError'> Field depart_date does not belong to the table"
+p3
+sS'layer'
+p4
+S'/home/www-data/web2py/applications/travel/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n# -------------------------------------------------------------------------\n# This is a sample controller\n# - index is the default action of any application\n# - user is required for authentication and authorization\n# - download is for downloading files uploaded in the db (does streaming)\n# -------------------------------------------------------------------------\nimport webbrowser\nimport gtk.gdk\nimport datetime\nimport time\nimport os, shutil\nimport glob\nimport pygeoip\nfrom selenium import webdriver\nfrom selenium.webdriver.support.ui import WebDriverWait\nfrom selenium.webdriver.support import expected_conditions as EC\nfrom selenium.common.exceptions import TimeoutException\nfrom selenium.webdriver.common.by import By\nimport json\nimport requests\nimport os\nfrom os import path\nfrom os import walk\n#from gluon.debug import dbg\n\n@auth.requires_login()\ndef index():\n    src = get_airport_code()\n    if not src:\n        form = display_code_form()\n    else:\n        form = \'\'\n        redirect(URL(\'home\'))\n\n    return dict(form=form, src=src)\n\ndef home():\n    src = str(get_airport_code())\n    dest = \'\'\n    if request.args==[]:\n        dest = \'DEN\'\n    else:\n        dest = request.args[1]\n    path = request.env.web2py_path +\'/applications/\' +request.application + \'/static/images/\' + src + \'/\' + dest + \'/\'\n#     files = []\n#     for (dirpath, dirnames, filenames) in walk(path):\n#         filenames = [f.replace(\'/HOME/WWW-DATA/\', \'\') for f in filenames]\n#         files.extend(filenames)\n#         break\n    files= {}\n    image_rows = db((db.user_request_images.created_by==auth.user.id) & (db.user_request_images.destination_code == dest)).select(db.user_request_images.image_path, db.user_request_images.link_to, orderby=~db.user_request_images.depart_date)\n    for i in image_rows:\n        files[i.image_path] = i.link_to\n    dir_path = request.env.web2py_path +\'/applications/\' +request.application + \'/static/images/\' + src + \'/\'\n    dirs = [x[0] for x in os.walk(dir_path)]\n    dirs = [d.replace(\'/home/www-data/web2py/applications/travel/static/images/\', \'\') for d in dirs]\n    if image_rows:\n        last_refreshed = db((db.user_request_images.created_by==auth.user.id) & (db.user_request_images.destination_code == dest)).select(db.user_request_images.created_on, orderby=~db.user_request_images.created_on, limitby=(0,1)).first().created_on\n        last_refreshed = last_refreshed.strftime("%m/%d/%Y %H:%M:%S")\n    else:\n        last_refreshed = \'\'\n    return dict(files=files, dest=dest, dirs=dirs, src=src, last_refreshed=last_refreshed)\n\n\ndef stringify(item):\n    new_string = \'\'\n    for i in item:\n        new_string = new_string + i\n    new_string = new_string[:-1]\n    return new_string\n\ndef images():\n    src = db((db.user_airport_code.created_by==auth.user.id)).select(db.user_request_images.image_path)\n    return dict(src=src)\n\n\ndef display_code_form():\n    form = SQLFORM(db.user_airport_code)\n    if form.process().accepted:\n        response.flash = \'form accepted\'\n        redirect(URL(\'home\'))\n    elif form.errors:\n        response.flash = \'form has errors\'\n    else:\n        response.flash = \'please fill out the form\'\n    return form\n\ndef location():\n    ip = request.client\n    rawdata = pygeoip.GeoIP(request.env.web2py_path +\'/applications/\' +request.application + \'/static/GeoLiteCity.dat\')\n    data = rawdata.record_by_name(ip)\n    if data:\n        longi = data[\'longitude\']\n        lat = data[\'latitude\']\n    else:\n        lat = 100000\n        longi = -10000\n    return dict(lat=lat, longi=longi)\n\ndef get_airport_code():\n    src = db((db.user_airport_code.created_by==auth.user.id)).select(db.user_airport_code.three_letter_code)\n    if not src:\n        src = \'\'\n    else:\n        src = src.first().three_letter_code\n    return src\n\ndef image(): # http://.../image/where/ever/it/is.jpeg\n    filename = os.path.join(BASEDIR,\'/\'.join(request.args))\n    return response.stream(open(filename,\'rb\'))\n\ndef populateWeekendDates():\n    weekend_dates = []\n    start = datetime.datetime.now() + datetime.timedelta(days=1)\n    #3 months into the future\n    end =  (start + datetime.timedelta(3*365/12))\n    begin = start\n    delta = datetime.timedelta(days=1)\n    diff = 0\n    #ONLY CALCULATE FRIDAY SINCE YOU CAN DO THE MATH FOR SUNDAY..\n    weekend = set([3])\n    while(begin<=end):\n            if(begin.weekday() in weekend):\n                    weekend_dates.append(begin)\n                    diff+=1\n            begin+=delta\n    return weekend_dates\n\ndef browserScreenshot(url,start_date,end_date,dest,source):\n        browser = driver = webdriver.PhantomJS()\n        browser.get(url)\n        delay = 0\n        wait = WebDriverWait(browser, delay)\n        wait.until(EC.presence_of_element_located((By.ID, \'root\')))\n        time.sleep(1)\n        stringtime = str(start_date) + \'->\' + str(end_date)\n        newdir = request.env.web2py_path +\'/applications/travel/static/images/\' + source + \'/\' + dest + "/"\n        if not os.path.exists(newdir):\n                os.makedirs(newdir)\n        filename = request.env.web2py_path +\'/applications/travel/static/images/\' + source+ \'/\' + dest + \'/flight\' + stringtime + ".png"\n        image = \'flight\' + stringtime + ".png"\n        db.user_request_images.insert(image_path=image, link_to=url, source_code = source, destination_code = dest, depart_date = start_date, return_date = end_date )\n        browser.save_screenshot(filename)\n        browser.close()\n\n\ndef makeCalls(src,weekend_dates, dest):\n    source = src\n    for date in weekend_dates:\n            start_date = datetime.datetime.strftime(date,\'%Y-%m-%d\')\n            end_date = datetime.datetime.strftime(date+datetime.timedelta(3),\'%Y-%m-%d\')\n            url = \'https://www.google.com/flights/#search;f=\'+source+\';t=\'+dest+\';d=\'+start_date+\';r=\'+end_date+\'\'\n            browserScreenshot(url,start_date, end_date,dest, source)\n\n\n\ndef callAllDestinations(source, weekend_dates, dest):\n        for d in dest:\n                makeCalls(source, weekend_dates, str(d))\n\ndef deleteFiles(source):\n    folder = request.env.web2py_path +\'/applications/travel/static/images/\' + source + \'/\'\n    if os.path.isdir(folder):\n        for the_file in os.listdir(folder):\n            file_path = os.path.join(folder, the_file)\n            try:\n                if os.path.isfile(file_path):\n                    os.unlink(file_path)\n                elif os.path.isdir(file_path): shutil.rmtree(file_path)\n            except Exception as e:\n                print(e)\n\ndef test():\n    weekend_dates = populateWeekendDates()\n    source = get_airport_code()\n    deleteFiles(source)\n    dest = [\'DEN\',\'LAX\', \'SFO\', \'CUN\', \'MSY\', \'JFK\', \'RIC\',\'DCA\',\'IAD\']   \n    callAllDestinations(source, weekend_dates,dest)\n    redirect(URL(\'home\'))\n    db.commit()\n    \ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/bulk_register\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users\n    """\n    return dict(form=auth())\n\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\nresponse._vars=response._caller(test)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__getslice__'
+p12
+S"<method-wrapper '__getslice__' of exceptions.SyntaxError object>"
+p13
+sS'text'
+p14
+S'None'
+p15
+sS'__str__'
+p16
+S"<method-wrapper '__str__' of exceptions.SyntaxError object>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of exceptions.SyntaxError object>'
+p19
+sS'__dict__'
+p20
+S'{}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of exceptions.SyntaxError object>'
+p23
+sS'__init__'
+p24
+S"<method-wrapper '__init__' of exceptions.SyntaxError object>"
+p25
+sS'__setattr__'
+p26
+S"<method-wrapper '__setattr__' of exceptions.SyntaxError object>"
+p27
+sS'__reduce_ex__'
+p28
+S'<built-in method __reduce_ex__ of exceptions.SyntaxError object>'
+p29
+sS'__new__'
+p30
+S'<built-in method __new__ of type object>'
+p31
+sS'__format__'
+p32
+S'<built-in method __format__ of exceptions.SyntaxError object>'
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.SyntaxError'>"
+p35
+sS'filename'
+p36
+S'None'
+p37
+sS'lineno'
+p38
+S'None'
+p39
+sS'msg'
+p40
+S"'Field depart_date does not belong to the table'"
+p41
+sS'__doc__'
+p42
+S"'Invalid syntax.'"
+p43
+sS'__getitem__'
+p44
+S"<method-wrapper '__getitem__' of exceptions.SyntaxError object>"
+p45
+sS'__setstate__'
+p46
+S'<built-in method __setstate__ of exceptions.SyntaxError object>'
+p47
+sS'__getattribute__'
+p48
+S"<method-wrapper '__getattribute__' of exceptions.SyntaxError object>"
+p49
+sS'print_file_and_line'
+p50
+S'None'
+p51
+sS'args'
+p52
+S"('Field depart_date does not belong to the table',)"
+p53
+sS'__subclasshook__'
+p54
+S'<built-in method __subclasshook__ of type object>'
+p55
+sS'offset'
+p56
+S'None'
+p57
+sS'__unicode__'
+p58
+S'<built-in method __unicode__ of exceptions.SyntaxError object>'
+p59
+sS'__delattr__'
+p60
+S"<method-wrapper '__delattr__' of exceptions.SyntaxError object>"
+p61
+sS'__repr__'
+p62
+S"<method-wrapper '__repr__' of exceptions.SyntaxError object>"
+p63
+sS'__hash__'
+p64
+S"<method-wrapper '__hash__' of exceptions.SyntaxError object>"
+p65
+ssS'evalue'
+p66
+S'Field depart_date does not belong to the table'
+p67
+sS'request'
+p68
+cgluon.html
+XML_unpickle
+p69
+(S's\xf9c\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232-b14012a8-bcd9-47f8-87dd-6c4ad241fd64<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_travel</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232-5f8d31e5-0adf-4be1-9cae-9aa4da657c2f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_PREFIX</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">GATEWAY_INTERFACE</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_travel=73.36.203.232-5f8d31e5-0adf-4be1-9cae-9aa4da657c2f; session_id_admin=73.36.203.232-b14012a8-bcd9-47f8-87dd-6c4ad241fd64</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/travel/default/test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_TRANSLATED</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/travel/default/test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>59956</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_SCHEME</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/travel/default/test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_FILENAME</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADDR</td><td style="vertical-align:top;">:</td><td><div>10.0.0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADMIN</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SIGNATURE</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.7 (Ubuntu) Server at 73.36.203.232 Port 443&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.7 (Ubuntu)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/travel/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_prefix</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gateway_interface</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_travel=73.36.203.232-5f8d31e5-0adf-4be1-9cae-9aa4da657c2f; session_id_admin=73.36.203.232-b14012a8-bcd9-47f8-87dd-6c4ad241fd64</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>73.36.203.232</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>ryan-MS-7850</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.application_group</td><td style="vertical-align:top;">:</td><td><div>127.0.1.1|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.queue_start</td><td style="vertical-align:top;">:</td><td><div>1463632341264068</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>3</div></td></tr><tr><td><div>4</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_application_group</td><td style="vertical-align:top;">:</td><td><div>127.0.1.1|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_queue_start</td><td style="vertical-align:top;">:</td><td><div>1463632341264068</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>3</div></td></tr><tr><td><div>4</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/travel/default/test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_translated</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/travel/default/test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>59956</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/travel/default/test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_addr</td><td style="vertical-align:top;">:</td><td><div>10.0.0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_admin</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_signature</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.7 (Ubuntu) Server at 73.36.203.232 Port 443&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.7 (Ubuntu)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f1575559530&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in method file_wrapper of mod_wsgi.Adapter object at 0x7f15759bc7b0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f1575559370&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f1575559530&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in method file_wrapper of mod_wsgi.Adapter object at 0x7f15759bc7b0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f1575559370&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/travel/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/travel/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>73.36.203.232</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>ryan-MS-7850</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 18, 23, 32, 21, 264353)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/travel/default/test</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 19, 4, 32, 21, 264363)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f157555ba10&gt;</div></td></tr></table></div>'
+tRp70
+sS'frames'
+p71
+(lp72
+(dp73
+S'file'
+p74
+S'/home/www-data/web2py/gluon/restricted.py'
+p75
+sS'dump'
+p76
+(dp77
+S'environment'
+p78
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p79
+sS'ccode'
+p80
+S'<code object <module> at 0x7f158c15b430, file "/...ications/travel/controllers/default.py", line 10>'
+p81
+ssS'lnum'
+p82
+I227
+sS'lines'
+p83
+(dp84
+I224
+S'            ccode = code'
+p85
+sI225
+S'        else:'
+p86
+sI226
+S'            ccode = compile2(code, layer)'
+p87
+sI227
+S'        exec ccode in environment'
+p88
+sI228
+S'    except HTTP:'
+p89
+sI229
+S'        raise'
+p90
+sI230
+S'    except RestrictedError:'
+p91
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p92
+sI222
+S'    try:'
+p93
+sI223
+S'        if isinstance(code, types.CodeType):'
+p94
+ssS'call'
+p95
+S"(code='# -*- coding: utf-8 -*-\\n# this file is released ...service()\\n\\nresponse._vars=response._caller(test)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}, layer='/home/www-data/web2py/applications/travel/controllers/default.py')"
+p96
+sS'func'
+p97
+S'restricted'
+p98
+sa(dp99
+g74
+S'/home/www-data/web2py/applications/travel/controllers/default.py'
+p100
+sg76
+(dp101
+sg82
+I222
+sg83
+(dp102
+I211
+S''
+sI212
+S''
+sI213
+S'def call():'
+p103
+sI214
+S'    """'
+p104
+sI215
+S'    exposes services. for example:'
+p105
+sI216
+S'    http://..../[app]/default/call/jsonrpc'
+p106
+sI217
+S'    decorate with @services.jsonrpc the functions to expose'
+p107
+sI218
+S'    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv'
+p108
+sI219
+S'    """'
+p109
+sI220
+S'    return service()'
+p110
+ssg95
+S'()'
+p111
+sg97
+S'<module>'
+p112
+sa(dp113
+g74
+S'/home/www-data/web2py/gluon/globals.py'
+p114
+sg76
+(dp115
+S'self'
+p116
+S'undefined'
+p117
+sS'f'
+S'<function test>'
+p118
+ssg82
+I417
+sg83
+(dp119
+I416
+S'        self._vars = None'
+p120
+sI417
+S'        self._caller = lambda f: f()'
+p121
+sI418
+S'        self._view_environment = None'
+p122
+sI419
+S'        self._custom_commit = None'
+p123
+sI420
+S'        self._custom_rollback = None'
+p124
+sI421
+S"        self.generic_patterns = ['*']"
+p125
+sI412
+S"        self.flash = ''            # used by the default view layout"
+p126
+sI413
+S'        self.meta = Storage()      # used by web2py_ajax.html'
+p127
+sI414
+S'        self.menu = []             # used by the default view layout'
+p128
+sI415
+S'        self.files = []            # used by web2py_ajax.html'
+p129
+ssg95
+S'(f=<function test>)'
+p130
+sg97
+S'<lambda>'
+p131
+sa(dp132
+g74
+S'/home/www-data/web2py/applications/travel/controllers/default.py'
+p133
+sg76
+(dp134
+S'weekend_dates'
+p135
+S'[datetime.datetime(2016, 5, 19, 23, 32, 21, 293424), datetime.datetime(2016, 5, 26, 23, 32, 21, 293424), datetime.datetime(2016, 6, 2, 23, 32, 21, 293424), datetime.datetime(2016, 6, 9, 23, 32, 21, 293424), datetime.datetime(2016, 6, 16, 23, 32, 21, 293424), datetime.datetime(2016, 6, 23, 23, 32, 21, 293424), datetime.datetime(2016, 6, 30, 23, 32, 21, 293424), datetime.datetime(2016, 7, 7, 23, 32, 21, 293424), datetime.datetime(2016, 7, 14, 23, 32, 21, 293424), datetime.datetime(2016, 7, 21, 23, 32, 21, 293424), datetime.datetime(2016, 7, 28, 23, 32, 21, 293424), datetime.datetime(2016, 8, 4, 23, 32, 21, 293424), datetime.datetime(2016, 8, 11, 23, 32, 21, 293424), datetime.datetime(2016, 8, 18, 23, 32, 21, 293424)]'
+p136
+sS'global callAllDestinations'
+p137
+S'<function callAllDestinations>'
+p138
+sS'dest'
+p139
+S"['DEN', 'LAX', 'SFO', 'CUN', 'MSY', 'JFK', 'RIC', 'DCA', 'IAD']"
+p140
+sS'source'
+p141
+S"'ORD'"
+p142
+ssg82
+I181
+sg83
+(dp143
+I176
+S'def test():'
+p144
+sI177
+S'    weekend_dates = populateWeekendDates()'
+p145
+sI178
+S'    source = get_airport_code()'
+p146
+sI179
+S'    deleteFiles(source)'
+p147
+sI180
+S"    dest = ['DEN','LAX', 'SFO', 'CUN', 'MSY', 'JFK', 'RIC','DCA','IAD']"
+p148
+sI181
+S'    callAllDestinations(source, weekend_dates,dest)'
+p149
+sI182
+S"    redirect(URL('home'))"
+p150
+sI183
+S'    db.commit()'
+p151
+sI184
+S''
+sI185
+S'def user():'
+p152
+ssg95
+S'()'
+p153
+sg97
+S'test'
+p154
+sa(dp155
+g74
+S'/home/www-data/web2py/applications/travel/controllers/default.py'
+p156
+sg76
+(dp157
+S'weekend_dates'
+p158
+S'[datetime.datetime(2016, 5, 19, 23, 32, 21, 293424), datetime.datetime(2016, 5, 26, 23, 32, 21, 293424), datetime.datetime(2016, 6, 2, 23, 32, 21, 293424), datetime.datetime(2016, 6, 9, 23, 32, 21, 293424), datetime.datetime(2016, 6, 16, 23, 32, 21, 293424), datetime.datetime(2016, 6, 23, 23, 32, 21, 293424), datetime.datetime(2016, 6, 30, 23, 32, 21, 293424), datetime.datetime(2016, 7, 7, 23, 32, 21, 293424), datetime.datetime(2016, 7, 14, 23, 32, 21, 293424), datetime.datetime(2016, 7, 21, 23, 32, 21, 293424), datetime.datetime(2016, 7, 28, 23, 32, 21, 293424), datetime.datetime(2016, 8, 4, 23, 32, 21, 293424), datetime.datetime(2016, 8, 11, 23, 32, 21, 293424), datetime.datetime(2016, 8, 18, 23, 32, 21, 293424)]'
+p159
+sS'source'
+p160
+S"'ORD'"
+p161
+sS'builtinstr'
+p162
+S"<type 'str'>"
+p163
+sS'global makeCalls'
+p164
+S'<function makeCalls>'
+p165
+sS'd'
+S"'DEN'"
+p166
+ssg82
+I162
+sg83
+(dp167
+I160
+S'def callAllDestinations(source, weekend_dates, dest):'
+p168
+sI161
+S'        for d in dest:'
+p169
+sI162
+S'                makeCalls(source, weekend_dates, str(d))'
+p170
+sI163
+S''
+sI164
+S'def deleteFiles(source):'
+p171
+sI165
+S"    folder = request.env.web2py_path +'/applications/travel/static/images/' + source + '/'"
+p172
+sI166
+S'    if os.path.isdir(folder):'
+p173
+sI157
+S''
+sI158
+S''
+sI159
+S''
+ssg95
+S"(source='ORD', weekend_dates=[datetime.datetime(2016, 5, 19, 23, 32, 21, 293424), datetime.datetime(2016, 5, 26, 23, 32, 21, 293424), datetime.datetime(2016, 6, 2, 23, 32, 21, 293424), datetime.datetime(2016, 6, 9, 23, 32, 21, 293424), datetime.datetime(2016, 6, 16, 23, 32, 21, 293424), datetime.datetime(2016, 6, 23, 23, 32, 21, 293424), datetime.datetime(2016, 6, 30, 23, 32, 21, 293424), datetime.datetime(2016, 7, 7, 23, 32, 21, 293424), datetime.datetime(2016, 7, 14, 23, 32, 21, 293424), datetime.datetime(2016, 7, 21, 23, 32, 21, 293424), datetime.datetime(2016, 7, 28, 23, 32, 21, 293424), datetime.datetime(2016, 8, 4, 23, 32, 21, 293424), datetime.datetime(2016, 8, 11, 23, 32, 21, 293424), datetime.datetime(2016, 8, 18, 23, 32, 21, 293424)], dest=['DEN', 'LAX', 'SFO', 'CUN', 'MSY', 'JFK', 'RIC', 'DCA', 'IAD'])"
+p174
+sg97
+S'callAllDestinations'
+p175
+sa(dp176
+g74
+S'/home/www-data/web2py/applications/travel/controllers/default.py'
+p177
+sg76
+(dp178
+S'end_date'
+p179
+S"'2016-05-22'"
+p180
+sS'source'
+p181
+S"'ORD'"
+p182
+sS'url'
+p183
+S"'https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22'"
+p184
+sS'dest'
+p185
+S"'DEN'"
+p186
+sS'global browserScreenshot'
+p187
+S'<function browserScreenshot>'
+p188
+sS'start_date'
+p189
+S"'2016-05-19'"
+p190
+ssg82
+I156
+sg83
+(dp191
+I160
+S'def callAllDestinations(source, weekend_dates, dest):'
+p192
+sI151
+S'    source = src'
+p193
+sI152
+S'    for date in weekend_dates:'
+p194
+sI153
+S"            start_date = datetime.datetime.strftime(date,'%Y-%m-%d')"
+p195
+sI154
+S"            end_date = datetime.datetime.strftime(date+datetime.timedelta(3),'%Y-%m-%d')"
+p196
+sI155
+S"            url = 'https://www.google.com/flights/#search;f='+source+';t='+dest+';d='+start_date+';r='+end_date+''"
+p197
+sI156
+S'            browserScreenshot(url,start_date, end_date,dest, source)'
+p198
+sI157
+S''
+sI158
+S''
+sI159
+S''
+ssg95
+S"(src='ORD', weekend_dates=[datetime.datetime(2016, 5, 19, 23, 32, 21, 293424), datetime.datetime(2016, 5, 26, 23, 32, 21, 293424), datetime.datetime(2016, 6, 2, 23, 32, 21, 293424), datetime.datetime(2016, 6, 9, 23, 32, 21, 293424), datetime.datetime(2016, 6, 16, 23, 32, 21, 293424), datetime.datetime(2016, 6, 23, 23, 32, 21, 293424), datetime.datetime(2016, 6, 30, 23, 32, 21, 293424), datetime.datetime(2016, 7, 7, 23, 32, 21, 293424), datetime.datetime(2016, 7, 14, 23, 32, 21, 293424), datetime.datetime(2016, 7, 21, 23, 32, 21, 293424), datetime.datetime(2016, 7, 28, 23, 32, 21, 293424), datetime.datetime(2016, 8, 4, 23, 32, 21, 293424), datetime.datetime(2016, 8, 11, 23, 32, 21, 293424), datetime.datetime(2016, 8, 18, 23, 32, 21, 293424)], dest='DEN')"
+p199
+sg97
+S'makeCalls'
+p200
+sa(dp201
+g74
+S'/home/www-data/web2py/applications/travel/controllers/default.py'
+p202
+sg76
+(dp203
+S'link_to'
+p204
+g117
+sS'destination_code'
+p205
+g117
+sS'image_path'
+p206
+g117
+sS'end_date'
+p207
+S"'2016-05-22'"
+p208
+sS'source'
+p209
+S"'ORD'"
+p210
+sS'db.user_request_images.insert'
+p211
+S'<bound method Table.insert of <Table user_reques...reated_by, is_active, modified_on, modified_by)>>'
+p212
+sS'image'
+p213
+S"'flight2016-05-19->2016-05-22.png'"
+p214
+sS'start_date'
+p215
+S"'2016-05-19'"
+p216
+sS'dest'
+p217
+S"'DEN'"
+p218
+sS'url'
+p219
+S"'https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22'"
+p220
+sS'return_date'
+p221
+g117
+sS'global db'
+p222
+S'<DAL uri="sqlite://storage.sqlite">'
+p223
+sS'db.user_request_images'
+p224
+S'<Table user_request_images (id, image_path, link...created_by, is_active, modified_on, modified_by)>'
+p225
+sS'source_code'
+p226
+g117
+sS'depart_date'
+p227
+g117
+ssg82
+I145
+sg83
+(dp228
+I140
+S'        newdir = request.env.web2py_path +\'/applications/travel/static/images/\' + source + \'/\' + dest + "/"'
+p229
+sI141
+S'        if not os.path.exists(newdir):'
+p230
+sI142
+S'                os.makedirs(newdir)'
+p231
+sI143
+S'        filename = request.env.web2py_path +\'/applications/travel/static/images/\' + source+ \'/\' + dest + \'/flight\' + stringtime + ".png"'
+p232
+sI144
+S'        image = \'flight\' + stringtime + ".png"'
+p233
+sI145
+S'        db.user_request_images.insert(image_path=image, link_to=url, source_code = source, destination_code = dest, depart_date = start_date, return_date = end_date )'
+p234
+sI146
+S'        browser.save_screenshot(filename)'
+p235
+sI147
+S'        browser.close()'
+p236
+sI148
+S''
+sI149
+S''
+ssg95
+S"(url='https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22', start_date='2016-05-19', end_date='2016-05-22', dest='DEN', source='ORD')"
+p237
+sg97
+S'browserScreenshot'
+p238
+sa(dp239
+g74
+S'/home/www-data/web2py/gluon/packages/dal/pydal/objects.py'
+p240
+sg76
+(dp241
+S'self._listify'
+p242
+S'<bound method Table._listify of <Table user_requ...reated_by, is_active, modified_on, modified_by)>>'
+p243
+sS'fields'
+p244
+S"{'created_by': 1L, 'created_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'depart_date': '2016-05-19', 'destination_code': 'DEN', 'image_path': 'flight2016-05-19->2016-05-22.png', 'is_active': True, 'link_to': 'https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22', 'modified_by': <function lazy_user>, 'modified_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'return_date': '2016-05-22', ...}"
+p245
+sS'self'
+p246
+S'<Table user_request_images (id, image_path, link...created_by, is_active, modified_on, modified_by)>'
+p247
+sS'ret'
+p248
+g117
+sS'self._db._adapter'
+p249
+S'<pydal.adapters.sqlite.SQLiteAdapter object>'
+p250
+sS'self._db._adapter.insert'
+p251
+S'<bound method SQLiteAdapter.insert of <pydal.adapters.sqlite.SQLiteAdapter object>>'
+p252
+sS'self._db'
+p253
+S'<DAL uri="sqlite://storage.sqlite">'
+p254
+ssg82
+I726
+sg83
+(dp255
+I721
+S'    def insert(self, **fields):'
+p256
+sI722
+S'        fields = self._defaults(fields)'
+p257
+sI723
+S'        self._attempt_upload(fields)'
+p258
+sI724
+S'        if any(f(fields) for f in self._before_insert):'
+p259
+sI725
+S'            return 0'
+p260
+sI726
+S'        ret = self._db._adapter.insert(self, self._listify(fields))'
+p261
+sI727
+S'        if ret and self._after_insert:'
+p262
+sI728
+S'            fields = Row(fields)'
+p263
+sI729
+S'            [f(fields, ret) for f in self._after_insert]'
+p264
+sI730
+S'        return ret'
+p265
+ssg95
+S"(self=<Table user_request_images (id, image_path, link...created_by, is_active, modified_on, modified_by)>, **fields={'created_by': 1L, 'created_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'depart_date': '2016-05-19', 'destination_code': 'DEN', 'image_path': 'flight2016-05-19->2016-05-22.png', 'is_active': True, 'link_to': 'https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22', 'modified_by': <function lazy_user>, 'modified_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'return_date': '2016-05-22', ...})"
+p266
+sg97
+S'insert'
+p267
+sa(dp268
+g74
+S'/home/www-data/web2py/gluon/packages/dal/pydal/objects.py'
+p269
+sg76
+(dp270
+S'name'
+p271
+S"'depart_date'"
+p272
+ssg82
+I641
+sg83
+(dp273
+I640
+S'                    raise SyntaxError('
+p274
+sI641
+S"                        'Field %s does not belong to the table' % name)"
+p275
+sI642
+S'            else:'
+p276
+sI643
+S'                field = self[name]'
+p277
+sI644
+S'                value = fields[name]'
+p278
+sI645
+S'                if field.filter_in:'
+p279
+sI636
+S'        # store all fields passed as input in new_fields'
+p280
+sI637
+S'        for name in fields:'
+p281
+sI638
+S'            if name not in self.fields:'
+p282
+sI639
+S"                if name != 'id':"
+p283
+ssg95
+S"(self=<Table user_request_images (id, image_path, link...created_by, is_active, modified_on, modified_by)>, fields={'created_by': 1L, 'created_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'depart_date': '2016-05-19', 'destination_code': 'DEN', 'image_path': 'flight2016-05-19->2016-05-22.png', 'is_active': True, 'link_to': 'https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22', 'modified_by': <function lazy_user>, 'modified_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'return_date': '2016-05-22', ...}, update=False)"
+p284
+sg97
+S'_listify'
+p285
+sasS'pyver'
+p286
+S'Python 2.7.6: /usr/bin/python (prefix: /usr)'
+p287
+sS'session'
+p288
+g69
+(S's\x17\n\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>9b24a8db-8a32-412f-89e5-bfcc0f342b40</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 18, 23, 27, 22, 875423)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remember_me</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>r.krienitz@gmail.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>Ryan</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>Krienitz</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>user_1</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_orderby</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_query</td><td style="vertical-align:top;">:</td><td><div>db.user_request_images.id&gt;0</div></td></tr></table></div>'
+tRp289
+sS'etype'
+p290
+S"<type 'exceptions.SyntaxError'>"
+p291
+sS'date'
+p292
+S'Wed May 18 23:32:23 2016'
+p293
+sS'response'
+p294
+g69
+(S'sV?\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f1575c7b458&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_travel</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232-5f8d31e5-0adf-4be1-9cae-9aa4da657c2f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="http://www.web2py.com/" id="web2py-logo"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/travel/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Design</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/design/travel</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Controller</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/travel/controllers/default.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>View</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/travel/views/default/test.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>DB Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/travel/models/db.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Menu Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/travel/models/menu.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Config.ini</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/travel/private/appconfig.ini</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Layout</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/travel/views/layout.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Stylesheet</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/travel/static/css/web2py-bootstrap3.css</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/travel/appadmin/index</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Errors</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/errors/travel</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>About</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/about/travel</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Download</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/download</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Support</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/support</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Demo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/demo_admin</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Quick Examples</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/examples/default/examples</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>FAQ</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/AlterEgo</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Videos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/videos/</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Free Applications</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/appliances</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/plugins</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2pyslices.com/</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Online book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Preface</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/00</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Introduction</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/01</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Python</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/02</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Overview</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/03</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Core</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/04</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Views</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/05</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/06</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Forms and Validators</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/07</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Email and SMS</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/08</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Access Control</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/09</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Services</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/10</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Ajax Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/11</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Components and Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/12</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Deployment Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/13</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Other Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/14</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Helping web2py</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/15</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Buy web2py\'s book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://stores.lulu.com/web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Groups</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/usergroups</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Twitter</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://twitter.com/web2py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Live Chat</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://webchat.freenode.net/?channels=web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>web2py</div></td></tr><tr><td><div>python</div></td></tr><tr><td><div>framework</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/test/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/www-data/web2py/applications/travel/sessions/029/15f/73.36.203.232-5f8d31e5-0adf-4be1-9cae-9aa4da657c2f&#x27;, mode &#x27;rb+&#x27; at 0x7f1576a17270&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/travel/sessions/73.36.203.232-5f8d31e5-0adf-4be1-9cae-9aa4da657c2f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>512c142f9de4fe9e74ebb0395d4d0f7a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>73.36.203.232-5f8d31e5-0adf-4be1-9cae-9aa4da657c2f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/test.html</div></td></tr></table></div>'
+tRp295
+sS'locals'
+p296
+(dp297
+S'name'
+p298
+S"'depart_date'"
+p299
+sS'fields'
+p300
+S"{'created_by': 1L, 'created_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'depart_date': '2016-05-19', 'destination_code': 'DEN', 'image_path': 'flight2016-05-19->2016-05-22.png', 'is_active': True, 'link_to': 'https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22', 'modified_by': <function lazy_user>, 'modified_on': datetime.datetime(2016, 5, 18, 23, 32, 21, 264353), 'return_date': '2016-05-22', ...}"
+p301
+sS'self'
+p302
+S'<Table user_request_images (id, image_path, link...created_by, is_active, modified_on, modified_by)>'
+p303
+sS'update'
+p304
+S'False'
+p305
+sS'value'
+p306
+S'1L'
+p307
+sS'field'
+p308
+S'<pydal.objects.Field object>'
+p309
+sS'new_fields'
+p310
+S"{'created_by': (<pydal.objects.Field object>, 1L), 'created_on': (<pydal.objects.Field object>, datetime.datetime(2016, 5, 18, 23, 32, 21, 264353)), 'destination_code': (<pydal.objects.Field object>, 'DEN'), 'image_path': (<pydal.objects.Field object>, 'flight2016-05-19->2016-05-22.png'), 'is_active': (<pydal.objects.Field object>, True), 'link_to': (<pydal.objects.Field object>, 'https://www.google.com/flights/#search;f=ORD;t=DEN;d=2016-05-19;r=2016-05-22'), 'modified_by': (<pydal.objects.Field object>, <function lazy_user>), 'modified_on': (<pydal.objects.Field object>, datetime.datetime(2016, 5, 18, 23, 32, 21, 264353)), 'source_code': (<pydal.objects.Field object>, 'ORD')}"
+p311
+sssS'traceback'
+p312
+S'Traceback (most recent call last):\n  File "/home/www-data/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/www-data/web2py/applications/travel/controllers/default.py", line 222, in <module>\n  File "/home/www-data/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/www-data/web2py/applications/travel/controllers/default.py", line 181, in test\n    callAllDestinations(source, weekend_dates,dest)\n  File "/home/www-data/web2py/applications/travel/controllers/default.py", line 162, in callAllDestinations\n    makeCalls(source, weekend_dates, str(d))\n  File "/home/www-data/web2py/applications/travel/controllers/default.py", line 156, in makeCalls\n    browserScreenshot(url,start_date, end_date,dest, source)\n  File "/home/www-data/web2py/applications/travel/controllers/default.py", line 145, in browserScreenshot\n    db.user_request_images.insert(image_path=image, link_to=url, source_code = source, destination_code = dest, depart_date = start_date, return_date = end_date )\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/objects.py", line 726, in insert\n    ret = self._db._adapter.insert(self, self._listify(fields))\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/objects.py", line 641, in _listify\n    \'Field %s does not belong to the table\' % name)\nSyntaxError: Field depart_date does not belong to the table\n'
+p313
+s.

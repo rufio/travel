@@ -1,0 +1,755 @@
+(dp1
+S'output'
+p2
+S"<class 'ConfigParser.InterpolationSyntaxError'> '%' must be followed by '%' or '(', found: '%\\\\@73.246.151.222'"
+p3
+sS'layer'
+p4
+S'/home/www-data/web2py/applications/travel/models/db.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\n# -------------------------------------------------------------------------\n# This scaffolding model makes your app work on Google App Engine too\n# File is released under public domain and you can use without limitations\n# -------------------------------------------------------------------------\n\nif request.global_settings.web2py_version < "2.14.1":\n    raise HTTP(500, "Requires web2py 2.13.3 or newer")\n\n# -------------------------------------------------------------------------\n# if SSL/HTTPS is properly configured and you want all HTTP requests to\n# be redirected to HTTPS, uncomment the line below:\n# -------------------------------------------------------------------------\n# request.requires_https()\n\n# -------------------------------------------------------------------------\n# app configuration made easy. Look inside private/appconfig.ini\n# -------------------------------------------------------------------------\nfrom gluon.contrib.appconfig import AppConfig\n\n# -------------------------------------------------------------------------\n# once in production, remove reload=True to gain full speed\n# -------------------------------------------------------------------------\nmyconf = AppConfig(reload=True)\n\nif not request.env.web2py_runtime_gae:\n    # ---------------------------------------------------------------------\n    # if NOT running on Google App Engine use SQLite or other DB\n    # ---------------------------------------------------------------------\n    db = DAL(myconf.get(\'db.uri\'),\n             pool_size=myconf.get(\'db.pool_size\'),\n             migrate_enabled=myconf.get(\'db.migrate\'),\n             check_reserved=[\'all\'])\nelse:\n    # ---------------------------------------------------------------------\n    # connect to Google BigTable (optional \'google:datastore://namespace\')\n    # ---------------------------------------------------------------------\n    db = DAL(\'google:datastore+ndb\')\n    # ---------------------------------------------------------------------\n    # store sessions and tickets there\n    # ---------------------------------------------------------------------\n    session.connect(request, response, db=db)\n    # ---------------------------------------------------------------------\n    # or store session in Memcache, Redis, etc.\n    # from gluon.contrib.memdb import MEMDB\n    # from google.appengine.api.memcache import Client\n    # session.connect(request, response, db = MEMDB(Client()))\n    # ---------------------------------------------------------------------\n\n# -------------------------------------------------------------------------\n# by default give a view/generic.extension to all actions from localhost\n# none otherwise. a pattern can be \'controller/function.extension\'\n# -------------------------------------------------------------------------\nresponse.generic_patterns = [\'*\'] if request.is_local else []\n# -------------------------------------------------------------------------\n# choose a style for forms\n# -------------------------------------------------------------------------\nresponse.formstyle = myconf.get(\'forms.formstyle\')  # or \'bootstrap3_stacked\' or \'bootstrap2\' or other\nresponse.form_label_separator = myconf.get(\'forms.separator\') or \'\'\n\n# -------------------------------------------------------------------------\n# (optional) optimize handling of static files\n# -------------------------------------------------------------------------\n# response.optimize_css = \'concat,minify,inline\'\n# response.optimize_js = \'concat,minify,inline\'\n\n# -------------------------------------------------------------------------\n# (optional) static assets folder versioning\n# -------------------------------------------------------------------------\n# response.static_version = \'0.0.0\'\n\n# -------------------------------------------------------------------------\n# Here is sample code if you need for\n# - email capabilities\n# - authentication (registration, login, logout, ... )\n# - authorization (role based authorization)\n# - services (xml, csv, json, xmlrpc, jsonrpc, amf, rss)\n# - old style crud actions\n# (more options discussed in gluon/tools.py)\n# -------------------------------------------------------------------------\n\nfrom gluon.tools import Auth, Service, PluginManager\n\n# host names must be a list of allowed host names (glob syntax allowed)\nauth = Auth(db, host_names=myconf.get(\'host.names\'))\nservice = Service()\nplugins = PluginManager()\n\n# -------------------------------------------------------------------------\n# create all tables needed by auth if not custom tables\n# -------------------------------------------------------------------------\nauth.define_tables(username=False, signature=False)\n\n# -------------------------------------------------------------------------\n# configure email\n# -------------------------------------------------------------------------\nmail = auth.settings.mailer\nmail.settings.server = \'logging\' if request.is_local else myconf.get(\'smtp.server\')\nmail.settings.sender = myconf.get(\'smtp.sender\')\nmail.settings.login = myconf.get(\'smtp.login\')\nmail.settings.tls = myconf.get(\'smtp.tls\') or False\nmail.settings.ssl = myconf.get(\'smtp.ssl\') or False\n\n# -------------------------------------------------------------------------\n# configure auth policy\n# -------------------------------------------------------------------------\nauth.settings.registration_requires_verification = False\nauth.settings.registration_requires_approval = False\nauth.settings.reset_password_requires_verification = True\n\n# -------------------------------------------------------------------------\n# Define your tables below (or better in another model file) for example\n#\n# >>> db.define_table(\'mytable\', Field(\'myfield\', \'string\'))\n#\n# Fields can be \'string\',\'text\',\'password\',\'integer\',\'double\',\'boolean\'\n#       \'date\',\'time\',\'datetime\',\'blob\',\'upload\', \'reference TABLENAME\'\n# There is an implicit \'id integer autoincrement\' field\n# Consult manual for more options, validators, etc.\n#\n# More API examples for controllers:\n#\n# >>> db.mytable.insert(myfield=\'value\')\n# >>> rows = db(db.mytable.myfield == \'value\').select(db.mytable.ALL)\n# >>> for row in rows: print row.id, row.myfield\n# -------------------------------------------------------------------------\n\n# -------------------------------------------------------------------------\n# after defining tables, uncomment below to enable auditing\n# -------------------------------------------------------------------------\n# auth.enable_record_versioning(db)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__module__'
+p12
+S"'ConfigParser'"
+p13
+sS'__getslice__'
+p14
+S"<method-wrapper '__getslice__' of InterpolationSyntaxError object>"
+p15
+sS'__str__'
+p16
+S"<bound method InterpolationSyntaxError.__repr__ ...lowed by '%' or '(', found: '%\\\\@73.246.151.222'>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of InterpolationSyntaxError object>'
+p19
+sS'__dict__'
+p20
+S'{\'_Error__message\': r"\'%\' must be followed by \'%\' or \'(\', found: \'%\\\\@73.246.151.222\'", \'option\': \'uri\', \'section\': \'db\'}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of InterpolationSyntaxError object>'
+p23
+sS'__weakref__'
+p24
+S'None'
+p25
+sS'__init__'
+p26
+S"<bound method InterpolationSyntaxError.__init__ ...lowed by '%' or '(', found: '%\\\\@73.246.151.222'>"
+p27
+sS'__setattr__'
+p28
+S"<method-wrapper '__setattr__' of InterpolationSyntaxError object>"
+p29
+sS'__reduce_ex__'
+p30
+S'<built-in method __reduce_ex__ of InterpolationSyntaxError object>'
+p31
+sS'__new__'
+p32
+S'<built-in method __new__ of type object>'
+p33
+sS'_get_message'
+p34
+S"<bound method InterpolationSyntaxError._get_mess...lowed by '%' or '(', found: '%\\\\@73.246.151.222'>"
+p35
+sS'section'
+p36
+S"'db'"
+p37
+sS'__format__'
+p38
+S'<built-in method __format__ of InterpolationSyntaxError object>'
+p39
+sS'__class__'
+p40
+S"<class 'ConfigParser.InterpolationSyntaxError'>"
+p41
+sS'__doc__'
+p42
+S"'Raised when the source text into which substitut...made\\n    does not conform to the required syntax.'"
+p43
+sS'option'
+p44
+S"'uri'"
+p45
+sS'__getitem__'
+p46
+S"<method-wrapper '__getitem__' of InterpolationSyntaxError object>"
+p47
+sS'__setstate__'
+p48
+S'<built-in method __setstate__ of InterpolationSyntaxError object>'
+p49
+sS'__getattribute__'
+p50
+S"<method-wrapper '__getattribute__' of InterpolationSyntaxError object>"
+p51
+sS'args'
+p52
+S'(\'uri\', \'db\', r"\'%\' must be followed by \'%\' or \'(\', found: \'%\\\\@73.246.151.222\'")'
+p53
+sS'__subclasshook__'
+p54
+S'<built-in method __subclasshook__ of type object>'
+p55
+sS'__unicode__'
+p56
+S'<built-in method __unicode__ of InterpolationSyntaxError object>'
+p57
+sS'_set_message'
+p58
+S"<bound method InterpolationSyntaxError._set_mess...lowed by '%' or '(', found: '%\\\\@73.246.151.222'>"
+p59
+sS'_Error__message'
+p60
+S'r"\'%\' must be followed by \'%\' or \'(\', found: \'%\\\\@73.246.151.222\'"'
+p61
+sS'__delattr__'
+p62
+S"<method-wrapper '__delattr__' of InterpolationSyntaxError object>"
+p63
+sS'__repr__'
+p64
+S"<bound method InterpolationSyntaxError.__repr__ ...lowed by '%' or '(', found: '%\\\\@73.246.151.222'>"
+p65
+sS'__hash__'
+p66
+S"<method-wrapper '__hash__' of InterpolationSyntaxError object>"
+p67
+ssS'evalue'
+p68
+S"'%' must be followed by '%' or '(', found: '%\\\\@73.246.151.222'"
+p69
+sS'request'
+p70
+cgluon.html
+XML_unpickle
+p71
+(S's\xfa_\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>login</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-e11664d9-ded4-4b87-9586-355a1e0de0e1<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_PREFIX</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">GATEWAY_INTERFACE</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=73.246.151.222-e11664d9-ded4-4b87-9586-355a1e0de0e1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/travel/default/user/login</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_TRANSLATED</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/travel/default/user/login</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div>_next=/travel/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>54572</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_SCHEME</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/travel/default/user/login?_next=/travel/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_FILENAME</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADDR</td><td style="vertical-align:top;">:</td><td><div>10.0.0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADMIN</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SIGNATURE</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.7 (Ubuntu) Server at 73.246.151.222 Port 80&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.7 (Ubuntu)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/travel/&#x27;, &#x27;/home/www-data/web2py/applications/cms/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_prefix</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gateway_interface</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=73.246.151.222-e11664d9-ded4-4b87-9586-355a1e0de0e1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>73.246.151.222</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>ryan-MS-7850</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.application_group</td><td style="vertical-align:top;">:</td><td><div>127.0.1.1|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_port</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.queue_start</td><td style="vertical-align:top;">:</td><td><div>1464235092334060</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>3</div></td></tr><tr><td><div>4</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_application_group</td><td style="vertical-align:top;">:</td><td><div>127.0.1.1|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_port</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_queue_start</td><td style="vertical-align:top;">:</td><td><div>1464235092334060</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>3</div></td></tr><tr><td><div>4</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/travel/default/user/login</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_translated</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/travel/default/user/login</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div>_next=/travel/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>54572</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/travel/default/user/login?_next=/travel/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_addr</td><td style="vertical-align:top;">:</td><td><div>10.0.0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_admin</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_signature</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.7 (Ubuntu) Server at 73.246.151.222 Port 80&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.7 (Ubuntu)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f7fb2e6b1f0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in method file_wrapper of mod_wsgi.Adapter object at 0x7f7fb2750210&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f7fb2e6b5f0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f7fb2e6b1f0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in method file_wrapper of mod_wsgi.Adapter object at 0x7f7fb2750210&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f7fb2e6b5f0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/travel/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>user</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/travel/&#x27;, &#x27;/home/www-data/web2py/applications/cms/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>73.246.151.222</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>ryan-MS-7850</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 25, 22, 58, 12, 334404)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div>login</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/travel/default/user/login</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 26, 3, 58, 12, 334417)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f7fb25dc6d0&gt;</div></td></tr></table></div>'
+tRp72
+sS'frames'
+p73
+(lp74
+(dp75
+S'file'
+p76
+S'/home/www-data/web2py/gluon/restricted.py'
+p77
+sS'dump'
+p78
+(dp79
+S'environment'
+p80
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}"
+p81
+sS'ccode'
+p82
+S'<code object <module> at 0x7f7fb34a2830, file "/...web2py/applications/travel/models/db.py", line 8>'
+p83
+ssS'lnum'
+p84
+I227
+sS'lines'
+p85
+(dp86
+I224
+S'            ccode = code'
+p87
+sI225
+S'        else:'
+p88
+sI226
+S'            ccode = compile2(code, layer)'
+p89
+sI227
+S'        exec ccode in environment'
+p90
+sI228
+S'    except HTTP:'
+p91
+sI229
+S'        raise'
+p92
+sI230
+S'    except RestrictedError:'
+p93
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p94
+sI222
+S'    try:'
+p95
+sI223
+S'        if isinstance(code, types.CodeType):'
+p96
+ssS'call'
+p97
+S"(code='# -*- coding: utf-8 -*-\\n\\n# ---------------------...------------\\n# auth.enable_record_versioning(db)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}, layer='/home/www-data/web2py/applications/travel/models/db.py')"
+p98
+sS'func'
+p99
+S'restricted'
+p100
+sa(dp101
+g76
+S'/home/www-data/web2py/applications/travel/models/db.py'
+p102
+sg78
+(dp103
+S'AppConfig'
+p104
+S'<function AppConfig>'
+p105
+sS'builtinTrue'
+p106
+S'True'
+p107
+sS'myconf'
+p108
+S'undefined'
+p109
+sS'builtinreload'
+p110
+S'<built-in function reload>'
+p111
+ssg84
+I25
+sg85
+(dp112
+I20
+S'from gluon.contrib.appconfig import AppConfig'
+p113
+sI21
+S''
+sI22
+S'# -------------------------------------------------------------------------'
+p114
+sI23
+S'# once in production, remove reload=True to gain full speed'
+p115
+sI24
+S'# -------------------------------------------------------------------------'
+p116
+sI25
+S'myconf = AppConfig(reload=True)'
+p117
+sI26
+S''
+sI27
+S'if not request.env.web2py_runtime_gae:'
+p118
+sI28
+S'    # ---------------------------------------------------------------------'
+p119
+sI29
+S'    # if NOT running on Google App Engine use SQLite or other DB'
+p120
+ssg97
+S'()'
+p121
+sg99
+S'<module>'
+p122
+sa(dp123
+g76
+S'/home/www-data/web2py/gluon/contrib/appconfig.py'
+p124
+sg78
+(dp125
+S'global AppConfigLoader'
+p126
+S"<class 'gluon.contrib.appconfig.AppConfigLoader'>"
+p127
+sS'vars'
+p128
+S'{}'
+p129
+sS'builtinsetattr'
+p130
+S'<built-in function setattr>'
+p131
+sS'args'
+p132
+S'()'
+p133
+sS'instance_name'
+p134
+S"'AppConfig_travel'"
+p135
+sS'global AppConfig'
+p136
+S'<function AppConfig>'
+p137
+ssg84
+I45
+sg85
+(dp138
+I40
+S'    locker.acquire()'
+p139
+sI41
+S"    reload_ = vars.pop('reload', False)"
+p140
+sI42
+S'    try:'
+p141
+sI43
+S"        instance_name = 'AppConfig_' + current.request.application"
+p142
+sI44
+S'        if reload_ or not hasattr(AppConfig, instance_name):'
+p143
+sI45
+S'            setattr(AppConfig, instance_name, AppConfigLoader(*args, **vars))'
+p144
+sI46
+S'        return getattr(AppConfig, instance_name).settings'
+p145
+sI47
+S'    finally:'
+p146
+sI48
+S'        locker.release()'
+p147
+sI49
+S''
+ssg97
+S'(*args=(), **vars={})'
+p148
+sg99
+S'AppConfig'
+p149
+sa(dp150
+g76
+S'/home/www-data/web2py/gluon/contrib/appconfig.py'
+p151
+sg78
+(dp152
+S'self'
+p153
+S'<gluon.contrib.appconfig.AppConfigLoader object>'
+p154
+sS'self.read_config'
+p155
+S'<bound method AppConfigLoader.read_config of <gluon.contrib.appconfig.AppConfigLoader object>>'
+p156
+ssg84
+I121
+sg85
+(dp157
+I116
+S'        if not configfile or not os.path.isfile(configfile):'
+p158
+sI117
+S'            raise BaseException("Config file not found")'
+p159
+sI118
+S'        self.file = configfile'
+p160
+sI119
+S'        self.ctype = os.path.splitext(configfile)[1][1:]'
+p161
+sI120
+S'        self.settings = None'
+p162
+sI121
+S'        self.read_config()'
+p163
+sI122
+S''
+sI123
+S'    def read_config_ini(self):'
+p164
+sI124
+S'        config = SafeConfigParser()'
+p165
+sI125
+S'        config.read(self.file)'
+p166
+ssg97
+S"(self=<gluon.contrib.appconfig.AppConfigLoader object>, configfile='/home/www-data/web2py/applications/travel/private/appconfig.ini')"
+p167
+sg99
+g26
+sa(dp168
+g76
+S'/home/www-data/web2py/gluon/contrib/appconfig.py'
+p169
+sg78
+(dp170
+S'self'
+p171
+S'<gluon.contrib.appconfig.AppConfigLoader object>'
+p172
+sS'builtingetattr'
+p173
+S'<built-in function getattr>'
+p174
+sS'self.ctype'
+p175
+S"'ini'"
+p176
+ssg84
+I140
+sg85
+(dp177
+I134
+S"        with open(self.file, 'r') as c:"
+p178
+sI135
+S'            self.settings = AppConfigDict(json_parser.load(c))'
+p179
+sI136
+S''
+sI137
+S'    def read_config(self):'
+p180
+sI138
+S'        if self.settings is None:'
+p181
+sI139
+S'            try:'
+p182
+sI140
+S"                getattr(self, 'read_config_' + self.ctype)()"
+p183
+sI141
+S'            except AttributeError:'
+p184
+sI142
+S'                raise BaseException("Unsupported config file format")'
+p185
+sI143
+S'        return self.settings'
+p186
+ssg97
+S'(self=<gluon.contrib.appconfig.AppConfigLoader object>)'
+p187
+sg99
+S'read_config'
+p188
+sa(dp189
+g76
+S'/home/www-data/web2py/gluon/contrib/appconfig.py'
+p190
+sg78
+(dp191
+S'section'
+p192
+S"'db'"
+p193
+sS'config'
+p194
+S'<ConfigParser.SafeConfigParser instance>'
+p195
+sS'option'
+p196
+S"'uri'"
+p197
+sS'config.get'
+p198
+S'<bound method SafeConfigParser.get of <ConfigParser.SafeConfigParser instance>>'
+p199
+sS'settings'
+p200
+S"{'app': {'author': 'Your Name <you@example.com>', 'description': 'a cool new app', 'generator': 'Web2py Web Framework', 'keywords': 'web2py, python, framework', 'name': 'Welcome'}, 'db': {}, 'host': {'names': 'localhost:*, 127.0.0.1:*, *:*, *'}}"
+p201
+ssg84
+I130
+sg85
+(dp202
+I128
+S'            settings[section] = {}'
+p203
+sI129
+S'            for option in config.options(section):'
+p204
+sI130
+S'                settings[section][option] = config.get(section, option)'
+p205
+sI131
+S'        self.settings = AppConfigDict(settings)'
+p206
+sI132
+S''
+sI133
+S'    def read_config_json(self):'
+p207
+sI134
+S"        with open(self.file, 'r') as c:"
+p208
+sI125
+S'        config.read(self.file)'
+p209
+sI126
+S'        settings = {}'
+p210
+sI127
+S'        for section in config.sections():'
+p211
+ssg97
+S'(self=<gluon.contrib.appconfig.AppConfigLoader object>)'
+p212
+sg99
+S'read_config_ini'
+p213
+sa(dp214
+g76
+S'/usr/lib/python2.7/ConfigParser.py'
+p215
+sg78
+(dp216
+S'd'
+S"{'migrate': 'true', '__name__': 'db', 'uri': 'po...:TGByhn15!%\\\\@73.246.151.222', 'pool_size': '10'}"
+p217
+sS'self'
+p218
+S'<ConfigParser.SafeConfigParser instance>'
+p219
+sS'value'
+p220
+S"r'postgres://travel:TGByhn15!%\\@73.246.151.222'"
+p221
+sS'section'
+p222
+S"'db'"
+p223
+sS'self._interpolate'
+p224
+S'<bound method SafeConfigParser._interpolate of <ConfigParser.SafeConfigParser instance>>'
+p225
+sS'option'
+p226
+S"'uri'"
+p227
+ssg84
+I623
+sg85
+(dp228
+I618
+S'            raise NoOptionError(option, section)'
+p229
+sI619
+S''
+sI620
+S'        if raw or value is None:'
+p230
+sI621
+S'            return value'
+p231
+sI622
+S'        else:'
+p232
+sI623
+S'            return self._interpolate(section, option, value, d)'
+p233
+sI624
+S''
+sI625
+S'    def items(self, section, raw=False, vars=None):'
+p234
+sI626
+S'        """Return a list of tuples with (name, value) for each option'
+p235
+sI627
+S'        in the section.'
+p236
+ssg97
+S"(self=<ConfigParser.SafeConfigParser instance>, section='db', option='uri', raw=False, vars=None)"
+p237
+sg99
+S'get'
+p238
+sa(dp239
+g76
+S'/usr/lib/python2.7/ConfigParser.py'
+p240
+sg78
+(dp241
+S'option'
+p242
+S"'uri'"
+p243
+sS'vars'
+p244
+S"{'migrate': 'true', '__name__': 'db', 'uri': 'po...:TGByhn15!%\\\\@73.246.151.222', 'pool_size': '10'}"
+p245
+sS'rawval'
+p246
+S"r'postgres://travel:TGByhn15!%\\@73.246.151.222'"
+p247
+sS'section'
+p248
+S"'db'"
+p249
+sS'L'
+S"['postgres://travel:TGByhn15!']"
+p250
+sS'self._interpolate_some'
+p251
+S'<bound method SafeConfigParser._interpolate_some of <ConfigParser.SafeConfigParser instance>>'
+p252
+sS'self'
+p253
+S'<ConfigParser.SafeConfigParser instance>'
+p254
+ssg84
+I691
+sg85
+(dp255
+I686
+S'class SafeConfigParser(ConfigParser):'
+p256
+sI687
+S''
+sI688
+S'    def _interpolate(self, section, option, rawval, vars):'
+p257
+sI689
+S'        # do the string interpolation'
+p258
+sI690
+S'        L = []'
+p259
+sI691
+S'        self._interpolate_some(option, L, rawval, section, vars, 1)'
+p260
+sI692
+S"        return ''.join(L)"
+p261
+sI693
+S''
+sI694
+S'    _interpvar_re = re.compile(r"%\\(([^)]+)\\)s")'
+p262
+sI695
+S''
+ssg97
+S"(self=<ConfigParser.SafeConfigParser instance>, section='db', option='uri', rawval=r'postgres://travel:TGByhn15!%\\@73.246.151.222', vars={'migrate': 'true', '__name__': 'db', 'uri': 'po...:TGByhn15!%\\\\@73.246.151.222', 'pool_size': '10'})"
+p263
+sg99
+S'_interpolate'
+p264
+sa(dp265
+g76
+S'/usr/lib/python2.7/ConfigParser.py'
+p266
+sg78
+(dp267
+S'rest'
+p268
+S"r'%\\@73.246.151.222'"
+p269
+ssg84
+I732
+sg85
+(dp270
+I736
+S'        # The only legal non-string value if we allow valueless'
+p271
+sI727
+S'                else:'
+p272
+sI728
+S'                    accum.append(v)'
+p273
+sI729
+S'            else:'
+p274
+sI730
+S'                raise InterpolationSyntaxError('
+p275
+sI731
+S'                    option, section,'
+p276
+sI732
+S'                    "\'%%\' must be followed by \'%%\' or \'(\', found: %r" % (rest,))'
+p277
+sI733
+S''
+sI734
+S'    def set(self, section, option, value=None):'
+p278
+sI735
+S'        """Set an option.  Extend ConfigParser.set: check for string values."""'
+p279
+ssg97
+S"(self=<ConfigParser.SafeConfigParser instance>, option='uri', accum=['postgres://travel:TGByhn15!'], rest=r'%\\@73.246.151.222', section='db', map={'migrate': 'true', '__name__': 'db', 'uri': 'po...:TGByhn15!%\\\\@73.246.151.222', 'pool_size': '10'}, depth=1)"
+p280
+sg99
+S'_interpolate_some'
+p281
+sasS'pyver'
+p282
+S'Python 2.7.6: /usr/bin/python (prefix: /usr)'
+p283
+sS'session'
+p284
+g71
+(S's\x1a\x00\x00\x00<div><table></table></div>'
+tRp285
+sS'etype'
+p286
+S"<class 'ConfigParser.InterpolationSyntaxError'>"
+p287
+sS'date'
+p288
+S'Wed May 25 22:58:12 2016'
+p289
+sS'response'
+p290
+g71
+(S's8\x16\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f7fb3960768&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_travel</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-a7de2236-ea7b-4b85-8966-6b007d60c0c4<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div>: </div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>table3cols</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/user/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/travel/sessions/73.246.151.222-a7de2236-ea7b-4b85-8966-6b007d60c0c4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>c0762cbf4baf7f9af97c051e7fcb8083</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>73.246.151.222-a7de2236-ea7b-4b85-8966-6b007d60c0c4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>travel</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/user.html</div></td></tr></table></div>'
+tRp291
+sS'locals'
+p292
+(dp293
+S'map'
+p294
+S"{'migrate': 'true', '__name__': 'db', 'uri': 'po...:TGByhn15!%\\\\@73.246.151.222', 'pool_size': '10'}"
+p295
+sS'c'
+S"r'\\'"
+p296
+sg44
+S"'uri'"
+p297
+sg36
+S"'db'"
+p298
+sS'rest'
+p299
+S"r'%\\@73.246.151.222'"
+p300
+sS'p'
+S'27'
+p301
+sS'depth'
+p302
+S'1'
+sS'accum'
+p303
+S"['postgres://travel:TGByhn15!']"
+p304
+sS'self'
+p305
+S'<ConfigParser.SafeConfigParser instance>'
+p306
+sssS'traceback'
+p307
+S'Traceback (most recent call last):\n  File "/home/www-data/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/www-data/web2py/applications/travel/models/db.py", line 25, in <module>\n    myconf = AppConfig(reload=True)\n  File "/home/www-data/web2py/gluon/contrib/appconfig.py", line 45, in AppConfig\n    setattr(AppConfig, instance_name, AppConfigLoader(*args, **vars))\n  File "/home/www-data/web2py/gluon/contrib/appconfig.py", line 121, in __init__\n    self.read_config()\n  File "/home/www-data/web2py/gluon/contrib/appconfig.py", line 140, in read_config\n    getattr(self, \'read_config_\' + self.ctype)()\n  File "/home/www-data/web2py/gluon/contrib/appconfig.py", line 130, in read_config_ini\n    settings[section][option] = config.get(section, option)\n  File "/usr/lib/python2.7/ConfigParser.py", line 623, in get\n    return self._interpolate(section, option, value, d)\n  File "/usr/lib/python2.7/ConfigParser.py", line 691, in _interpolate\n    self._interpolate_some(option, L, rawval, section, vars, 1)\n  File "/usr/lib/python2.7/ConfigParser.py", line 732, in _interpolate_some\n    "\'%%\' must be followed by \'%%\' or \'(\', found: %r" % (rest,))\nInterpolationSyntaxError: \'%\' must be followed by \'%\' or \'(\', found: \'%\\\\@73.246.151.222\'\n'
+p308
+s.

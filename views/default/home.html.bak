@@ -1,0 +1,80 @@
+<div id="top-bar">{{=dest}}</div>
+{{extend 'layout.html'}}
+
+<div class="row">
+    <div class="dy-select col-md-6">
+        <h3>
+        Pick when you want to start your travels:
+    </h3>
+        <span class="refresh-alert-text"></span>
+        <form id="radio-form">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="options" id="option1" value="4" autocomplete="off" checked> Thursday
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="options" id="option2" value="5" autocomplete="off"> Friday
+                </label>
+            </div>
+        </form>
+    </div>
+    
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">.
+        <h3>
+    Click Refresh to Populate Data
+    </h3>
+        <div class="flight-links">
+            {{for dir in dirs[1:]:}}
+            <a href="{{= URL() + '/' + dir}}">
+                <button type="button" id="{{=dir}}" class="btn btn-default navbar-btn">{{= dir}}</button>
+            </a>
+            {{pass}}
+            <span class="refresh-area">
+
+    </span>
+        </div>
+    </div>
+</div>
+
+
+<div class="last-refreshed col-md-6">
+        <h3>Last Refreshed:<span class="small-text">{{=last_refreshed}}</span></h3>
+
+    </div>
+<div class="row">
+        {{for key, val in iter(sorted(files.iteritems())): }}
+        <div class="col-md-3 crop">{{=A(IMG(_src=URL('static/images/' + src + '/' + dest.upper(), key), _alt="My Logo"), _href=val)}}</div>
+        {{pass}}
+</div>
+
+<script>
+    $(document).ready(function() {
+        function show_alert() {
+            $('.refresh-alert-text').html('Make sure to click Refresh');
+            setTimeout(function() {
+                $('.refresh-alert-text').html('');
+            }, 3000);
+
+        };
+        var $btn_txt4 = '{{=A("Refresh", callback=URL("process_screenshots/4"), _id="refresh-btn", _class="btn btn-primary")}}';
+        var $btn_txt5 = '{{=A("Refresh", callback=URL("process_screenshots/5"), _id="refresh-btn",  _class="btn btn-primary")}}';
+        var $btn_txt = '';
+        $('#radio-form input').on('change', function() {
+            show_alert();
+            var day_val = $('input[name=options]:checked', '#radio-form').val();
+            if (day_val == 4) {
+                $btn_txt = $btn_txt4;
+            } else {
+                $btn_txt = $btn_txt5
+            }
+            $(".refresh-area").html($btn_txt);
+        });
+        $(".refresh-area").html($btn_txt4);
+
+
+    });
+</script>

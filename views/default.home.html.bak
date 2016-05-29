@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+
+
+{{for dir in dirs[1:]:}}
+    <a href="{{= URL() + '/' + dir}}"><button type="button" class="btn btn-default navbar-btn">{{=  dir}}</button></a>
+{{pass}}
+<divs style="margin-bottom:100px;">
+    <button type="button" name ="seeting_button" onclick = 'window.location="{{=URL('default', 'test')}}";'>Refresh</button>
+</div>
+
+<div class="img-item">
+{{for file in files:}}
+    {{=IMG(_src=URL('static/images/' + '/' + src + '/' + dest.upper(), file), _alt="My Logo")}}
+{{pass}}
+</div>

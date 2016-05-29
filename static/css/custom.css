@@ -1,0 +1,128 @@
+.crop {
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    border:solid 1px #DDDDDD;
+    box-shadow: -2px -2px 4px grey;
+    margin-top:10px;
+
+}
+.col-md-3{
+    width:24%;
+}
+
+.crop img {
+    max-width: 155%;
+    height: auto;
+    width: auto\9; /* ie8 */
+    margin-left:-4%;
+}
+
+.active{
+    background-color:green !important;
+}
+
+#refresh{
+    background-color:grey;
+}
+
+.refresh-alert-text, .max-alert-text{
+    color:red;
+}
+
+.refresh-alert-bg{
+    background-color:red !important;
+}
+
+#day-select{
+    float:left;
+}
+
+#last-refreshed{
+    float:right;
+    text-align:right;
+}
+
+.small-text{
+    font-size:15px;
+    margin-left:10px;
+}
+
+#top-bar{
+    position: fixed;
+    width:50px;
+    top: 0;
+    margin-left: 45%;
+    text-align:center;
+    color:#FFF;
+    z-index:1031;
+    height: 60px;
+    line-height: 55px;
+}
+
+
+@media only screen and (min-device-width : 375px) and (max-device-width : 750px) { 
+    .crop img {
+        width:150%;
+        height: 100%;
+        margin-left:-15px;
+    }
+
+    .crop {
+        width: 97%;
+        height: 150%;
+        overflow: hidden;
+        border:solid 1px #DDDDDD;
+        margin-top:15px;
+        box-shadow: -1px -1px 3px grey;
+    }
+    .col-md-3{
+        width:100% !important;
+    }
+    
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media screen and (min-device-width : 992px) and (max-device-width : 1200px) {  
+    .crop img {
+        width:150%;
+        height: 100%;
+        margin-left:-15px;
+    }
+    .col-md-3{
+        width:50% !important;
+    }
+
+    .crop {
+        width: 97%;
+        height: 150%;
+        overflow: hidden;
+        border:solid 1px #DDDDDD;
+        margin-top:15px;
+        box-shadow: -1px -1px 3px grey;
+    }
+}
+
+
+
+@media screen and (min-device-width : 650px) and (max-device-width : 990px) {  
+    .crop img {
+        width:150%;
+        height: 100%;
+        margin-left:-15px;
+    }
+    .col-md-3{
+        width:100% !important;
+    }
+
+    .crop {
+        width: 97%;
+        height: 150%;
+        overflow: hidden;
+        border:solid 1px #DDDDDD;
+        margin-top:15px;
+        box-shadow: -1px -1px 3px grey;
+    }
+}
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: @screen-lg-min) {  }
