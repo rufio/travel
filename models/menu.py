@@ -5,7 +5,7 @@
 # Customize your APP title, subtitle and menus here
 # ----------------------------------------------------------------------------------------------------------------------
 
-response.logo = A("WKNDWARRIOR",_class="navbar-brand", _href="http://www.web2py.com/")
+response.logo = A("WKNDWARRIOR",_class="navbar-brand", _href="https://73.246.151.222/travel/")
 response.title = request.application.replace('_', ' ').title()
 response.subtitle = ''
 
@@ -28,7 +28,8 @@ response.google_analytics_id = None
 
 response.menu = [
     (T('Home'), False, URL('default', 'index'), []),
-    (T('Profile'), False, URL('default', 'user_profile'), [])
+    (T('Profile'), False, URL('default', 'user_profile'), []),
+    (T('Dests'), False, URL('default', 'destinations'), [])
 ]
 
 DEVELOPMENT_MENU = True

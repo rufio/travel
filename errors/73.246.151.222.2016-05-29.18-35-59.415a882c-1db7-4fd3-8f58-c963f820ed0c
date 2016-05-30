@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S'<class \'gluon.contrib.pymysql.err.InternalError\'> (1025, u"Error on rename of \'./travel/#sql-4f2_351b\' to \'./travel/user_destinations\' (errno: 150)")'
+p3
+sS'layer'
+p4
+S'/home/www-data/web2py/applications/travel/models/db1.py'
+p5
+sS'code'
+p6
+S"# -*- coding: utf-8 -*-\n# -*- coding: utf-8 -*-\ndb.define_table('airport_info',\n                Field('name', 'string'),\n                Field('city', 'string'),\n                Field('country', 'string'),\n                Field('three_letter_code', 'string'),\n                Field('latitude', 'double'),\n                Field('longitude', 'double'))\n\ndb.define_table('user_airport_code',\n                Field('three_letter_code', 'string'),\n                Field('created_on', 'datetime', default=request.now),\n                Field('created_by', db.auth_user,   writable=False, default=auth.user_id),\n               auth.signature)\ndb.user_airport_code.three_letter_code.widget = SQLFORM.widgets.autocomplete(request, db.airport_info.three_letter_code, limitby=(0,10), min_length=1)\n\n\ndb.define_table('user_destinations',\n                Field('three_letter_code', db.airport_info),\n                Field('created_on', 'datetime', default =request.now),\n                Field('created_by', db.auth_user, default = auth.user_id))\n\ndb.define_table('user_request_images',\n                Field('image_path', 'string'),\n                Field('link_to', 'string'),\n                Field('source_code', 'string'),\n                Field('destination_code', 'string'),\n                Field('depart_date', 'date'),\n                Field('return_date', 'date'),\n                Field('created_on', 'datetime', default=request.now),\n                Field('created_by', db.auth_user, default=auth.user_id),\n               auth.signature)\n\ndb.define_table('progress',\n                Field('progress_stuff', 'integer'),\n                Field('ttl','integer'),\n                Field('percent_val', 'double'))\n"
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/www-data/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/www-data/web2py/applications/travel/models/db1.py", line 22, in <module>\n    Field(\'created_by\', db.auth_user, default = auth.user_id))\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/base.py", line 834, in define_table\n    table = self.lazy_define_table(tablename,*fields,**args)\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/base.py", line 873, in lazy_define_table\n    polymodel=polymodel)\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/adapters/base.py", line 510, in create_table\n    fake_migrate=fake_migrate\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/adapters/base.py", line 623, in migrate_table\n    self.execute(sub_query)\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/adapters/base.py", line 1388, in execute\n    return self.log_execute(*a, **b)\n  File "/home/www-data/web2py/gluon/packages/dal/pydal/adapters/base.py", line 1382, in log_execute\n    ret = self.get_cursor().execute(command, *a[1:], **b)\n  File "/home/www-data/web2py/gluon/contrib/pymysql/cursors.py", line 117, in execute\n    self.errorhandler(self, exc, value)\n  File "/home/www-data/web2py/gluon/contrib/pymysql/connections.py", line 202, in defaulterrorhandler\n    raise errorclass, errorvalue\nInternalError: (1025, u"Error on rename of \'./travel/#sql-4f2_351b\' to \'./travel/user_destinations\' (errno: 150)")\n'
+p11
+s.

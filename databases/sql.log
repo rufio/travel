@@ -214,3 +214,91 @@ CREATE TABLE progress(
     PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
+timestamp: 2016-05-29T18:26:09.045659
+CREATE TABLE user_destinations(
+    id INT AUTO_INCREMENT NOT NULL,
+    three_letter_code VARCHAR(512),
+    created_on DATETIME,
+    created_by INT  , INDEX created_by__idx (created_by), FOREIGN KEY (created_by) REFERENCES auth_user (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+success!
+timestamp: 2016-05-29T18:28:39.375744
+ALTER TABLE user_destinations ADD city INT  , ADD INDEX city__idx (city), ADD FOREIGN KEY (city) REFERENCES airport_info (id) ON DELETE CASCADE;
+success!
+success!
+timestamp: 2016-05-29T18:31:09.003778
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:32:09.006761
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:33:09.013081
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:34:09.011026
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:34:20.301430
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:34:26.891329
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:35:11.082700
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:35:20.778836
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:35:59.434402
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:36:20.223066
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:36:31.468084
+ALTER TABLE user_destinations DROP COLUMN city;
+timestamp: 2016-05-29T18:36:47.584322
+CREATE TABLE user_dest(
+    id INT AUTO_INCREMENT NOT NULL,
+    three_letter_code INT  , INDEX three_letter_code__idx (three_letter_code), FOREIGN KEY (three_letter_code) REFERENCES airport_info (id) ON DELETE CASCADE,
+    created_on DATETIME,
+    created_by INT  , INDEX created_by__idx (created_by), FOREIGN KEY (created_by) REFERENCES auth_user (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2016-05-29T18:39:10.782972
+ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512);
+success!
+UPDATE user_dest SET three_letter_code__tmp=three_letter_code;
+success!
+ALTER TABLE user_dest DROP COLUMN three_letter_code;
+timestamp: 2016-05-29T18:42:43.613871
+CREATE TABLE user_dest(
+    id INT AUTO_INCREMENT NOT NULL,
+    three_letter_code VARCHAR(512),
+    created_on DATETIME,
+    created_by INT  , INDEX created_by__idx (created_by), FOREIGN KEY (created_by) REFERENCES auth_user (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2016-05-29T18:43:20.773918
+CREATE TABLE user_dest(
+    id INT AUTO_INCREMENT NOT NULL,
+    three_letter_code VARCHAR(512),
+    created_on DATETIME,
+    created_by INT  , INDEX created_by__idx (created_by), FOREIGN KEY (created_by) REFERENCES auth_user (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2016-05-29T18:44:20.776888
+CREATE TABLE user_dest(
+    id INT AUTO_INCREMENT NOT NULL,
+    three_letter_code VARCHAR(512),
+    created_on DATETIME,
+    created_by INT  , INDEX created_by__idx (created_by), FOREIGN KEY (created_by) REFERENCES auth_user (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2016-05-29T18:44:35.611742
+CREATE TABLE user_dest(
+    id INT AUTO_INCREMENT NOT NULL,
+    three_letter_code VARCHAR(512),
+    created_on DATETIME,
+    created_by INT  , INDEX created_by__idx (created_by), FOREIGN KEY (created_by) REFERENCES auth_user (id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2016-05-29T20:24:30.729442
+ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-05-29T20:24:37.773308
+ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512) UNIQUE;

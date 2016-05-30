@@ -50,7 +50,14 @@ def home():
     src = str(get_airport_code())
     dest = ''
     if request.args==[]:
-        dest = 'DEN'
+        if(db((db.user_dest.created_by==auth.user.id)).select()):
+                if(db((db.user_request_images.created_by==auth.user.id)).select()):
+                    dest = db((db.user_request_images.created_by==auth.user.id)).select(db.user_request_images.destination_code, orderby=~db.user_request_images.created_on, limitby=(0,1)).first().destination_code
+                else:
+                    dest= ''
+        else:
+          redirect(URL('destinations'), client_side=True)      
+
     else:
         if request.args[0] == 'refresh':
             process_screenshots()
@@ -68,7 +75,8 @@ def home():
         last_refreshed = last_refreshed.strftime("%m/%d/%Y %I:%M:%p")
     else:
         last_refreshed = ''
-    return dict(files=files, dest=dest, dirs=dirs, src=src, last_refreshed=last_refreshed)
+    dest_picks = db((db.user_dest.created_by==auth.user.id)).select()
+    return dict(files=files, dest=dest, dirs=dirs, src=src, last_refreshed=last_refreshed, dest_picks=dest_picks)
 
 def images():
     src = db((db.user_airport_code.created_by==auth.user.id)).select(db.user_request_images.image_path)
@@ -207,6 +215,22 @@ def display_profile_form():
         response.flash = 'form accepted'
     elif form.errors:
         response.flash = 'form has errors'
+    return form
+
+
+
+def destinations():
+    return dict(form=display_dest_form().process(),
+                dest=db((db.user_dest.created_by==auth.user.id)).select(db.user_dest.three_letter_code))
+
+def display_dest_form():
+    form = SQLFORM(db.user_dest)
+    if form.process().accepted:
+        response.flash = request.args
+    elif form.errors:
+        response.flash = str(form.errors)
+    else:
+        response.flash = 'please fill out the form'
     return form
 
 def user():

@@ -60,6 +60,11 @@
     line-height: 55px;
 }
 
+.dest_list{
+    margin-top:50px;
+}
+
+
 
 @media only screen and (min-device-width : 375px) and (max-device-width : 750px) { 
     .crop img {
