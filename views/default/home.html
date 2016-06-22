@@ -2,55 +2,80 @@
 {{extend 'layout.html'}}
 
 <div class="row">
-    <div class="col-md-6">
-        <h3>
-        1.Pick when you want to start your travels:
-    </h3>
+    <div class="col-md-12">
+        <h3>1.Pick when you want to start your travels:</h3>
+        <span>(Green is the default)</span>
+        <br />
         <span class="refresh-alert-text"></span>
-        <form id="radio-form">
+        <form id="radio-form-days">
             <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-primary active">
-                    <input type="radio" name="options" id="option1" value="4" autocomplete="off" checked> Thursday
+                    <input type="radio" name="options" id="option1" value="D4" autocomplete="off" checked> Thursday
                 </label>
                 <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option2" value="5" autocomplete="off"> Friday
+                    <input type="radio" name="options" id="option2" value="D5" autocomplete="off"> Friday
                 </label>
             </div>
         </form>
     </div>
-    <div class="col-md-6">
+    </div>
+<div class="row">
+    <div class="col-md-12">
+    <h3>2.Choose 1 or 3 Months Going Forward:</h3>
+        <span>(Green is the default)</span>
+    <br />
+    <form id="radio-form-future">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" name="future-options" id="future-option1" value="F1" autocomplete="off" checked>1 Months
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="future-options" id="future-option2" value="F3" autocomplete="off">3 Months
+                </label>
+            </div>
+        </form>
+    
+    </div>
+</div>
+    <div class="row">
+    <div class="col-md-12">
         <h3>
-    2.Click Each Destination to Refresh:
+    3.Click Each Destination to Refresh:
     </h3>
     <span class="max-alert-text"></span>
         <div class="flight-links">
             {{for d in dest_picks:}}
                 <button type="button" id="{{=d.three_letter_code}}" value = "{{=d.three_letter_code }}" class="btn btn-default navbar-btn dests">{{= d.three_letter_code }}</button>
             {{pass}}
+            <button type="button" class="btn btn-info" id ="highlight-all">Add/Remove All</button>
         </div>
     </div>
     
 </div>
-
-
 <div class="row">
-    <div class="col-md-6">
-        <h3>
-        3.Navigate To Different Pages:
-    </h3>
-        <div class="flight-links">
-            {{for dir in dirs[1:]:}}
-            <a href="{{= URL() + '/' + dir}}">
-                <button type="button" id="{{=str(dir).replace(src +'/', '')}}" class="btn btn-default navbar-btn">{{= str(dir).replace('/', '->')}}</button>
-            </a>
-            {{pass}}
-        </div>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
     <h3>4.Click Refresh to Populate Data:</h3>
+    <span>(This my take a minute or two)</span>
+    <br />
+    <br />
         <span class="refresh-area">
 
     </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>
+        Navigate To Different Pages:
+    </h3>
+        <div class="flight-links">
+            {{for dir in dirs[1:]:}}
+            <a href="{{= URL() + dir}}">
+                <button type="button" id="{{=str(dir).replace(src +'/', '')}}" class="btn btn-default navbar-btn">{{= str(dir)[1:].replace('/', '->')}}</button>
+            </a>
+            {{pass}}
+        </div>
     </div>
 </div>
 
@@ -62,13 +87,20 @@
 </div>
 <div class="row">
         {{for key, val in iter(sorted(files.iteritems())): }}
-        <div class="col-md-3 crop">{{=A(IMG(_src=URL('static/images/' + src + '/' + dest.upper(), key), _alt="My Logo"), _href=val)}}</div>
+        <div class="col-md-3 crop">{{=A(IMG(_src=URL('static/images/' + unique_path + '/' + src + '/' + dest.upper(), key), _alt="My Logo"), _href=val)}}</div>
         {{pass}}
 </div>
 
 <script>
     $(document).ready(function() {
         var urls = new Array();
+        var day_val = $('input[name=options]:checked', '#radio-form-days').val();
+        var future_val = $('input[name=future-options]:checked', '#radio-form-future').val();
+        var url_value = "/travel/default/process_screenshots/" + day_val + "/" + future_val;
+
+        var btn_txt = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + url_value + " id='refresh-btn'>Refresh</a>";
+        console.log(url_value);
+        console.log(btn_txt);
         function show_alert(value, class_name) {
             $('.' + class_name + '').html(value);
             setTimeout(function() {
@@ -76,25 +108,29 @@
             }, 3000);
         };
 
-        function refresh_button(){
-            var day_val = $('input[name=options]:checked', '#radio-form').val();
-            if (day_val == 4) {
-                btn_txt = btn_txt4;
-            } else {
-                btn_txt = btn_txt5
-            }
+        function refresh_button(url_value){
+            btn_txt = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + url_value + " id='refresh-btn'>Refresh</a>";
+            
+            console.log("2" + url_value);
+            console.log("2" + btn_txt);
             $(".refresh-area").html(btn_txt);
         }
-        var urlThursday = "/travel/default/process_screenshots/4";
-        var urlFriday = "/travel/default/process_screenshots/5";
-        var btn_txt4 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlThursday + " id='refresh-btn'>Refresh</a>"
-        var btn_txt5 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlFriday + " id='refresh-btn'>Refresh</a>";
-        var btn_txt = '';
-        $('#radio-form input').on('change', function() {
-            show_alert("Make Sure to Click Refresh", 'refresh-alert-text');
-            refresh_button();
+        
+        $('#radio-form-days input').on('change', function() {
+            day_val = $('#radio-form-days .active input').val();
+            url_value = "/travel/default/process_screenshots/" + day_val + "/" + future_val;
+            console.log(day_val)
+            show_alert("Make Sure to Choose Your Destinations and then Click Refresh! Days", 'refresh-alert-text');
+            refresh_button(url_value);
         });
-        $(".refresh-area").html(btn_txt4);
+        
+        $('#radio-form-future input').on('change', function() {
+            future_val = $('#radio-form-future .active input').val();
+            url_value = "/travel/default/process_screenshots/" + day_val + "/" + future_val;
+            show_alert("Make Sure to Choose Your Destinations and then Click Refresh! Future", 'refresh-alert-text');
+            refresh_button(url_value);
+        });
+        $(".refresh-area").html(btn_txt);
 
 
 
@@ -102,21 +138,46 @@
         //PIECE FOR ADDING DESTINATIONS
         $('.dests').click(function(e) { 
             e.preventDefault(); 
-            if(urls.length>= numDests){
-                show_alert("Added Too Many Destinations", 'max-alert-text');
+            if($(this).hasClass('active')){
+                urls.pop($(this).attr("value"));
+                $(this).removeClass('active');
+                var item = "/" + $(this).attr("value");
+                url_value = url_value.replace(item, '');
+                refresh_button(url_value);
             }
             else{
                 urls.push($(this).attr("value"));
                 $(this).addClass('active');
-                urlThursday += "/" + $(this).attr("value");
-                urlFriday +="/" + $(this).attr("value");
-                btn_txt4 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlThursday + " id='refresh-btn'>Refresh</a>"
-                btn_txt5 = "<a class='btn btn-primary' data-w2p_disable_with='default' data-w2p_method='POST' href=" + urlFriday + " id='refresh-btn'>Refresh</a>";
-                refresh_button();
+                url_value += "/" + $(this).attr("value");
+
+                refresh_button(url_value);
             }
-            console.log(urlThursday);
-            console.log(urlFriday);
+            console.log(url_value);
             console.log(urls);
+        });
+
+        $('#highlight-all').click(function(e){
+            e.preventDefault();
+             if($('.flight-links').children().hasClass('active')){
+                $('.dests').each(function(index,value){
+                    
+                    $(this).removeClass('active');
+                    urls.pop($(this).attr("value"));
+                    var item = "/" + $(this).attr("value");
+                    url_value = url_value.replace(item, '');
+                    
+                    refresh_button(url_value);
+                });
+             }
+             else{
+                
+                $('.dests').each(function(index,value){
+                    $(this).addClass('active');
+                    urls.push($(this).attr("value"));
+                    url_value += "/" + $(this).attr("value");
+                    refresh_button(url_value);
+                });
+             }
         });
 
 

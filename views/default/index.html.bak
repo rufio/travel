@@ -1,26 +1,34 @@
 {{extend 'layout.html'}}
 
-{{if not src:}}
-    <h1>
-        Enter your Info:
-</h1>
-    {{=form}}
-{{pass}}
 
-{{if src:}}
-    <divs style="margin-bottom:100px;">
-        <button type="button" name ="seeting_button" onclick = 'window.location="{{=URL('default', 'test')}}";'>Refresh</button>
-    </div>
-{{pass}}
+<div id="header">
+    {{=IMG(_src=URL('static', '/images/bg.jpg'), _class='headerBg', _alt='My Logo')}}
+</div>
 
-<script type="text/javascript">
-$(document).ready(function(){
+<div class="row">
+  <div class="col-md-12">
+    <div class="image-container">
+      <h2 id="main-desc">WKNDWARRIOR-Find Cheap Weekend Flights</h2>
+      
 
-  $(function() {
-    $("#no_table_computedName").autocomplete({
-      source: "{{=URL('jqueryui', 'elementnode_autocomplete')}}",
-      minLength: 2
-    });
+              
+
+        
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function(){
+  $('.index-expl').slick({
+    
   });
 });
+  
 </script>

@@ -13,7 +13,7 @@
 
 .crop img {
     max-width: 155%;
-    height: auto;
+    height: 100%;
     width: auto\9; /* ie8 */
     margin-left:-4%;
 }
@@ -64,7 +64,108 @@
     margin-top:50px;
 }
 
+.dest-item{
+    background-color:#DDD;
+    margin:1px;
+    text-align:center;
+    height:95px;
 
+}
+
+.dest-item .pin-left{
+    float:left;
+}
+.dest-item .pin-right{
+    float:right;
+    color:red;
+}
+
+.dest-item p{
+    line-height: 80px;
+}
+
+.pin-right:hover{
+    color:red;
+    cursor: pointer;
+}
+
+#target{
+    display:none;
+}
+
+.red-notice{
+    font-size:13px;
+    color:#e74c3c;
+    font-style:italic;
+}
+
+.slick-slide{
+    width: 600px;
+}
+
+#header {
+    position:fixed;
+    height: 100%;
+    width:100%;
+    margin-left:-30px !important;
+    margin-top:-30px;
+}
+
+
+.headerBg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.index-expl{
+    color:#FFF;
+    text-align:center;
+}
+
+.image-container{
+    width:1200px;
+    margin:0 auto;
+
+}
+.slick-arrow{
+    background:rgba(0,0,0,0.5) !important;
+    height:50px !important;
+    width:50px !important;
+    z-index: 999 !important;
+}
+
+.steps{
+    text-align: center;
+    color:#000;
+    font-size: 2em;
+    position:absolute;
+    width:1200px;
+}
+
+.index-expl img{
+    width:1200px;
+}
+.container .main{
+
+}
+
+#main-desc{
+    color:#fff;
+    text-align: center;
+}
+
+.main-login{
+    text-align:center;
+    font-size: 3em;
+    margin-top: 260px;
+    background-color:#FFF;
+}
+
+.view-flight-btn{
+    margin-top:1em;
+}
 
 @media only screen and (min-device-width : 375px) and (max-device-width : 750px) { 
     .crop img {

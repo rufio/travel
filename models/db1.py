@@ -21,6 +21,8 @@ db.define_table('user_dest',
                 Field('created_on', 'datetime', default =request.now),
                 Field('created_by', db.auth_user,writable=False, default = auth.user_id))
 db.user_dest.three_letter_code.widget = SQLFORM.widgets.autocomplete(request, db.airport_info.three_letter_code, limitby=(0,10), min_length=1)
+if auth.is_logged_in():
+    db.user_dest.three_letter_code.requires = IS_NOT_IN_DB(db((db.user_dest.three_letter_code == request.vars.three_letter_code) & (db.user_dest.created_by==auth.user.id)), 'user_dest.three_letter_code')
 
 db.define_table('user_request_images',
                 Field('image_path', 'string'),

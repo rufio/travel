@@ -302,3 +302,17 @@ timestamp: 2016-05-29T20:24:30.729442
 ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
 timestamp: 2016-05-29T20:24:37.773308
 ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-06-09T23:07:51.896534
+ALTER TABLE user_airport_code ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-06-09T23:07:55.749589
+ALTER TABLE user_airport_code ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-06-09T23:08:39.578933
+ALTER TABLE user_airport_code ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-06-09T23:08:55.940159
+ALTER TABLE user_airport_code ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-06-09T23:09:09.426414
+ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-06-09T23:09:55.938933
+ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
+timestamp: 2016-06-09T23:10:55.942174
+ALTER TABLE user_dest ADD three_letter_code__tmp VARCHAR(512) UNIQUE;
