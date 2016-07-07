@@ -1,13 +1,60 @@
+/* .navbar-default, .footer {
+    background-color: #94B488 !important;
+    border-color: #709861 !important;
+}
+
+.btn-primary, .btn-default{
+    background-color: #94B488 !important;
+}
+
+.navbar-default .navbar-nav>.open>a{
+    background-color:#517C41 !important;
+}
+
+
+footer{
+    color:#FFF !important;
+}
+
+.navbar-default .navbar-nav>li>a{
+    color:#E0E9DC !important;
+}
+
+.navbar-default .navbar-nav>li>a:hover{
+        color:#fff !important;
+}
+
+.btn-info{
+    background-color:#D07A44 !important;
+} */
+
+.main-img{
+    height:auto;
+    width:100%;
+}
+
+.main-header{
+    color:#FFF;
+}
+
 .crop {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    height: auto;
     overflow: hidden;
+    border:solid 1px #DDDDDD;
+    box-shadow: -2px -2px 4px grey;
+    margin-top:10px;
+
+}
+.col-md-3{
+    width:24%;
 }
 
 .crop img {
-    width: 400px;
+    max-width: 155%;
     height: 100%;
-    margin: 5px 0 0 0;
+    width: auto\9; /* ie8 */
+    margin-left:-4%;
 }
 
 .active{
@@ -18,8 +65,8 @@
     background-color:grey;
 }
 
-.refresh-alert-text{
-    color:red;
+.refresh-alert-text-days, .refresh-alert-text-future, .max-alert-text{
+    color:#D04B44;
 }
 
 .refresh-alert-bg{
@@ -42,30 +89,185 @@
 
 #top-bar{
     position: fixed;
-    width:50px;
+    width:200px;
     top: 0;
-    margin-left: 45%;
+    margin-left: 40%;
     text-align:center;
     color:#FFF;
     z-index:1031;
     height: 60px;
-    line-height: 55px;
+    line-height: 65px;
+}
+
+.dest_list{
+    margin-top:50px;
+}
+
+.dest-item{
+    background-color:#DDD;
+    margin:1px;
+    text-align:center;
+    height:95px;
+
+}
+
+.dest-item .pin-left{
+    float:left;
+}
+.dest-item .pin-right{
+    float:right;
+    color:red;
+}
+
+.dest-item p{
+    line-height: 80px;
+}
+
+.pin-right:hover{
+    color:red;
+    cursor: pointer;
+}
+
+#target{
+    display:none;
+}
+
+.red-notice{
+    font-size:13px;
+    color:#e74c3c;
+    font-style:italic;
+}
+
+.slick-slide{
+    width: 600px;
+}
+
+#header {
+    position:fixed;
+    height: 100%;
+    width:100%;
+    margin-left:-30px !important;
+    margin-top:-30px;
 }
 
 
+.headerBg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
 
-/* Extra small devices (phones, less than 768px) */
-/* No media query since this is the default in Bootstrap */
+.index-expl{
+    color:#FFF;
+    text-align:center;
+}
 
-/* Small devices (tablets, 768px and up) */
-@media (min-width: @screen-sm-min) {
-    .img-item img{
-            width:100%;
+.image-container{
+    width:1200px;
+    margin:0 auto;
+
+}
+.slick-arrow{
+    background:rgba(0,0,0,0.5) !important;
+    height:50px !important;
+    width:50px !important;
+    z-index: 999 !important;
+}
+
+.steps{
+    text-align: center;
+    color:#000;
+    font-size: 2em;
+    position:absolute;
+    width:1200px;
+}
+
+.index-expl img{
+    width:1200px;
+}
+.container .main{
+
+}
+
+#main-desc{
+    color:#fff;
+    text-align: center;
+}
+
+.main-login{
+    text-align:center;
+    font-size: 3em;
+    margin-top: 260px;
+    background-color:#FFF;
+}
+
+.view-flight-btn{
+    margin-top:1em;
+}
+
+@media only screen and (min-device-width : 375px) and (max-device-width : 750px) { 
+    .crop img {
+        width:150%;
+        height: 100%;
+        margin-left:-15px;
     }
+
+    .crop {
+        width: 97%;
+        height: 150%;
+        overflow: hidden;
+        border:solid 1px #DDDDDD;
+        margin-top:15px;
+        box-shadow: -1px -1px 3px grey;
+    }
+    .col-md-3{
+        width:100% !important;
+    }
+    
 }
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: @screen-md-min) {  }
+@media screen and (min-device-width : 992px) and (max-device-width : 1200px) {  
+    .crop img {
+        width:150%;
+        height: 100%;
+        margin-left:-15px;
+    }
+    .col-md-3{
+        width:50% !important;
+    }
 
+    .crop {
+        width: 97%;
+        height: 150%;
+        overflow: hidden;
+        border:solid 1px #DDDDDD;
+        margin-top:15px;
+        box-shadow: -1px -1px 3px grey;
+    }
+}
+
+
+
+@media screen and (min-device-width : 650px) and (max-device-width : 990px) {  
+    .crop img {
+        width:150%;
+        height: 100%;
+        margin-left:-15px;
+    }
+    .col-md-3{
+        width:100% !important;
+    }
+
+    .crop {
+        width: 97%;
+        height: 150%;
+        overflow: hidden;
+        border:solid 1px #DDDDDD;
+        margin-top:15px;
+        box-shadow: -1px -1px 3px grey;
+    }
+}
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: @screen-lg-min) {  }

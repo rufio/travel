@@ -49,14 +49,17 @@ def source():
 @auth.requires_login()
 def home():
     src = str(get_airport_code())
-    unique_path = str(get_user_hash())
+    unique_path = str(get_user_id())
     dest = ''
+    full_dest =''
     if request.args==[]:
         if(db((db.user_dest.created_by==auth.user.id)).select()):
                 if(db((db.user_request_images.created_by==auth.user.id)).select()):
                     dest = db((db.user_request_images.created_by==auth.user.id)).select(db.user_request_images.destination_code, orderby=~db.user_request_images.created_on, limitby=(0,1)).first().destination_code
+                    full_dest = str(get_city_from_code(dest))
                 else:
                     dest= ''
+                    full_dest = ''
         else:
           redirect(URL('destinations'), client_side=True)      
 
@@ -64,26 +67,33 @@ def home():
         if request.args[0] == 'refresh':
             process_screenshots()
         dest = request.args[1]
-    path = request.env.web2py_path +'/applications/' +request.application + '/static/images/' + unique_path + '/' + src + '/' + dest + '/'
+    path = request.env.web2py_path +'/applications/' +request.application + '/static/images/user_images/' + unique_path + '/' + src + '/' + dest + '/'
     files= {}
     image_rows = db((db.user_request_images.destination_code == dest) & (db.user_request_images.depart_date > datetime.date.today())).select(db.user_request_images.image_path, db.user_request_images.link_to)
     for i in image_rows:
         files[i.image_path] = i.link_to
-    dir_path = request.env.web2py_path +'/applications/' +request.application + '/static/images/' + unique_path + '/' + src + '/'
+    dir_path = request.env.web2py_path +'/applications/' +request.application + '/static/images/user_images/' + unique_path + '/' + src + '/'
     dirs = [x[0] for x in os.walk(dir_path)]
-    dirs = [d.replace('/home/www-data/web2py/applications/travel/static/images/' + unique_path, '') for d in dirs]
+    dirs = [d.replace('/home/www-data/web2py/applications/travel/static/images/user_images/' + unique_path, '') for d in dirs]
     if image_rows:
         last_refreshed = db((db.user_request_images.destination_code == dest) & (db.user_request_images.created_by==auth.user.id)).select(db.user_request_images.created_on, orderby=~db.user_request_images.created_on, limitby=(0,1)).first().created_on
         last_refreshed = last_refreshed.strftime("%m/%d/%Y %I:%M:%p")
     else:
         last_refreshed = ''
     dest_picks = db((db.user_dest.created_by==auth.user.id)).select()
-    return dict(files=files, dest=dest, dirs=dirs, src=src, last_refreshed=last_refreshed, dest_picks=dest_picks, unique_path=unique_path)
+    full_dest = str(get_city_from_code(dest))
+    return dict(files=files, dest=dest, dirs=dirs, src=src, last_refreshed=last_refreshed, dest_picks=dest_picks, unique_path=unique_path, full_dest=full_dest)
 
 def images():
     src = db((db.user_airport_code.created_by==auth.user.id)).select(db.user_request_images.image_path)
     return dict(src=src)
 
+def get_city_from_code(three_letter_code):
+    if(three_letter_code):
+        dest = db((db.airport_info.three_letter_code==three_letter_code)).select(db.airport_info.city).first().city
+    else:
+        dest = ''
+    return dest
 
 def display_code_form():
     form = SQLFORM(db.user_airport_code)
@@ -149,7 +159,7 @@ def populate_weekend_dates(start_index, ttl_duration):
     return weekend_dates
 
 def browser_screenshot(url,start_date,end_date,dest,source):
-        unique_path = str(get_user_hash())
+        unique_path = str(get_user_id())
         browser = driver = webdriver.PhantomJS()
         browser.get(url)
         delay = 0
@@ -157,10 +167,10 @@ def browser_screenshot(url,start_date,end_date,dest,source):
         wait.until(EC.presence_of_element_located((By.ID, 'root')))
         time.sleep(1)
         stringtime = str(start_date) + '->' + str(end_date)
-        newdir = request.env.web2py_path +'/applications/travel/static/images/' + unique_path + '/' + source + '/' + dest + "/"
+        newdir = request.env.web2py_path +'/applications/travel/static/images/user_images/' + unique_path + '/' + source + '/' + dest + "/"
         if not os.path.exists(newdir):
                 os.makedirs(newdir)
-        filename = request.env.web2py_path +'/applications/travel/static/images/' + unique_path + '/' + source+ '/' + dest + '/flight' + stringtime + ".png"
+        filename = request.env.web2py_path +'/applications/travel/static/images/user_images/' + unique_path + '/' + source+ '/' + dest + '/flight' + stringtime + ".png"
         image = 'flight' + stringtime + ".png"
         db.user_request_images.insert(image_path=image, link_to=url, source_code = source, destination_code = dest, depart_date = start_date, return_date = end_date )
         browser.save_screenshot(filename)
@@ -181,8 +191,8 @@ def call_all_destinations(source, weekend_dates, dest, start_index):
 
 
 def delete_files(source):
-    unique_path = str(get_user_hash())
-    folder = request.env.web2py_path +'/applications/travel/static/images/' + unique_path + '/' + source + '/'
+    unique_path = str(get_user_id())
+    folder = request.env.web2py_path +'/applications/travel/static/images/user_images/' + unique_path + '/' + source + '/'
     db((db.user_request_images.created_by==auth.user.id)).delete()
     if os.path.isdir(folder):
         for the_file in os.listdir(folder):
@@ -196,7 +206,7 @@ def delete_files(source):
 
 def process_screenshots():
     dest = []
-    unique_path = str(get_user_hash())
+    unique_path = str(get_user_id())
     start_index = request.args[0]
     start_index = start_index.replace('D','')
     ttl_duration = request.args[1]
@@ -231,10 +241,8 @@ def display_profile_form():
         response.flash = 'form has errors'
     return form
 
-def get_user_hash():
+def get_user_id():
     user_id = auth.user.id
-    user_id = hashlib.sha256(str(user_id)).hexdigest()
-    user_id = str(user_id[0:10])
     return user_id
 
 

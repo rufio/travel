@@ -6,17 +6,11 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12">
-    <div class="image-container">
-      <h2 id="main-desc">WKNDWARRIOR-Find Cheap Weekend Flights</h2>
-      
-
-              
-
-        
-      </div>
-  </div>
+    <div class="col-md-12 col-centered"><h2 class="main-header">Multi-City Flight Data for up to 3 months</h2></div>
+    <div class="col-md-12 col-centered">{{=IMG(_src=URL('static', '/images/main-image.png'), _class='main-img', _alt='My Logo')}}</div>
 </div>
+
+
 
 
 

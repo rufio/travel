@@ -5,7 +5,7 @@
 # Customize your APP title, subtitle and menus here
 # ----------------------------------------------------------------------------------------------------------------------
 
-response.logo = A("WKNDWARRIOR",_class="navbar-brand", _href="https://73.246.151.222/travel/")
+response.logo = A("IFLYOUT.COM",_class="navbar-brand", _href="https://iflyout.com/travel/default")
 response.title = request.application.replace('_', ' ').title()
 response.subtitle = ''
 
@@ -37,7 +37,7 @@ if auth.is_logged_in ():
          LI(_class="divider"),
          (T('Destination Airport Change'), False, URL('default', 'destinations'))
             ]),
-        (T('Tutorial'), False, URL('default', 'index'), []),
+        
     ]
 else:
     response.menu = [
